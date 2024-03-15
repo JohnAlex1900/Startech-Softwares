@@ -1,0 +1,117 @@
+{
+  "Header": {
+    "title": "Design, Develop, Create",
+    "paragraph": "Our mission is to take your creativity, whatever you imagine, and turn it into the very reality you thought was impossible."
+  },
+  "About": {
+    "paragraph": "At Startech Softwares, we are passionate about transforming ideas into reality. We specialize in app and website development and design, dedicated to solving real-world problems for our clients. Our mission is to empower individuals and businesses by leveraging cutting-edge technology and innovative design to bring their imaginations to life",
+    "Why": [
+      "Expertise: With a diverse skill set and deep technical knowledge, we have the expertise to tackle projects of any size or complexity",
+
+      "Creativity: We are passionate about pushing the boundaries of creativity and innovation, delivering solutions that stand out in a crowded digital landscape",
+
+      "Reliability: Our commitment to quality, reliability, and professionalism ensures that you can trust us to deliver results on time and within budget."
+    ],
+    "Why2": [
+      "App Development: From concept to launch, we specialize in developing custom mobile and web applications that are intuitive, scalable, and feature-rich. Whether you need a sleek consumer app or a robust enterprise solution, we have the expertise to bring your ideas to life",
+
+      "Website Design: Your website is your digital storefront, and we're here to make it shine. Our team of designers creates stunning, user-centric websites that captivate audiences and drive results. We combine beautiful aesthetics with seamless functionality to deliver an exceptional online experience",
+
+      "Problem-Solving: We thrive on solving complex challenges and turning obstacles into opportunities. Whether it's streamlining processes, enhancing user engagement, or optimizing performance, we are committed to finding innovative solutions that make a tangible impact on your business."
+    ]
+  },
+  "Gallery": [
+    {
+      "title": "Web App Design",
+      "largeImage": "img/portfolio/01-large.jpg",
+      "smallImage": "img/portfolio/01-small.jpg"
+    },
+    {
+      "title": "Responsive UI",
+      "largeImage": "img/portfolio/02-large.jpg",
+      "smallImage": "img/portfolio/02-small.jpg"
+    },
+    {
+      "title": "Mobile App Design",
+      "largeImage": "img/portfolio/03-large.jpg",
+      "smallImage": "img/portfolio/03-small.jpg"
+    },
+    {
+      "title": "UI/UX Design",
+      "largeImage": "img/portfolio/04-large.jpg",
+      "smallImage": "img/portfolio/04-small.jpg"
+    },
+    {
+      "title": "single-Page Wesbites",
+      "largeImage": "img/portfolio/05-large.jpg",
+      "smallImage": "img/portfolio/05-small.jpg"
+    },
+    {
+      "title": "Multi-Page Websites",
+      "largeImage": "img/portfolio/06-large.jpg",
+      "smallImage": "img/portfolio/06-small.jpg"
+    },
+    {
+      "title": "Backend Integration",
+      "largeImage": "img/portfolio/07-large.jpg",
+      "smallImage": "img/portfolio/07-small.jpg"
+    },
+    {
+      "title": "Fullstack Web Development",
+      "largeImage": "img/portfolio/08-large.jpg",
+      "smallImage": "img/portfolio/08-small.jpg"
+    },
+    {
+      "title": "Fullstack Mobile Development",
+      "largeImage": "img/portfolio/09-large.jpg",
+      "smallImage": "img/portfolio/09-small.jpg"
+    }
+  ],
+  "Services": [
+    {
+      "icon": "fa fa-desktop",
+      "name": "WEB DESIGN AND DEVELOPMENT",
+      "text": "Our web design service focuses on creating visually appealing and user-friendly websites tailored to your brand and target audience. We combine aesthetics with functionality to ensure an engaging online presence that drives conversions."
+    },
+    {
+      "icon": "fa fa-cube",
+      "name": "UI/UX DESIGN AND APP DEVELOPMENT",
+      "text": "UI/UX design is at the core of delivering exceptional user experiences. We specialize in crafting intuitive interfaces and seamless interactions that enhance user satisfaction and retention. From wireframing to prototyping, we prioritize user-centric design principles to elevate your digital products."
+    },
+    {
+      "icon": "fa fa-code",
+      "name": "E-COMMERCE AND ONLINE BUSINESS PLATFORMS",
+      "text": "Our full stack web development service covers the entire spectrum of web development, from front-end to back-end. We leverage the latest technologies and frameworks to build scalable, robust, and responsive web applications tailored to your specific business needs."
+    }
+  ],
+  "Contact": {
+    "address": "00232 Ruiru, Ruiru Kamiti Road, Ruiru ",
+    "phone": "+254 711 949676",
+    "email": "johnirungu977@gmail.com",
+    "facebook": "fb.com",
+    "twitter": "twitter.com",
+    "youtube": "youtube.com"
+  },
+  "Features": [
+    {
+      "icon": "fa fa-phone",
+      "title": "24/7 Customer Support",
+      "text": "We offer around-the-clock customer support to ensure that assistance is available whenever you need it. Whether you have questions, encounter issues, or require guidance, our dedicated support team is here to help you at any time, day or night."
+    },
+    {
+      "icon": "fa fa-money-bill",
+      "title": "14-Day Money Back",
+      "text": "We stand behind the quality of our products/services and want you to feel confident in your purchase. That's why we offer a 14-day money back guarantee. If for any reason you are not satisfied with your purchase within the first 14 days, we will refund your payment in full, no questions asked."
+    },
+    {
+      "icon": "fa fa-users",
+      "title": "Customer Interaction",
+      "text": "We believe in fostering meaningful relationships with our customers and staying actively engaged with them. Through consistent interaction, we aim to understand your needs better, address your feedback, and provide ongoing support to ensure your satisfaction."
+    },
+    {
+      "icon": "fa fa-user-secret",
+      "title": "Client Security and Privacy",
+      "text": "Protecting your privacy and ensuring the security of your personal information is paramount to us. We have implemented robust measures to safeguard your data and uphold the highest standards of confidentiality and security."
+    }
+  ]
+}
