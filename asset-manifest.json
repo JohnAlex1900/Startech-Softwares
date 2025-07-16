@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Startech-Softwares/static/css/main.cee32762.css",
+    "main.js": "/Startech-Softwares/static/js/main.721d792a.js",
+    "index.html": "/Startech-Softwares/index.html",
+    "main.cee32762.css.map": "/Startech-Softwares/static/css/main.cee32762.css.map",
+    "main.721d792a.js.map": "/Startech-Softwares/static/js/main.721d792a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cee32762.css",
+    "static/js/main.721d792a.js"
+  ]
+}
