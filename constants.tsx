@@ -79,7 +79,7 @@ export const PROJECTS: Project[] = [
     description:
       "A corporate website for an international real estate agency, featuring a clean design and clear service presentation.",
     technologies: ["React", "Tailwind CSS", "Node.js", "Express"],
-    imageUrl: "./assets/giftandsons.png",
+    imageUrl: "/assets/giftandsons.png",
     link: "https://giftandsonsinternational.com",
   },
   {
@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
     description:
       "An online presence and reputation management agency from a reputable organization in Kenya, which operates internationally",
     technologies: ["API", "Firebase", "React", "Google Cloud"],
-    imageUrl: "./assets/sifabora_2.png",
+    imageUrl: "/assets/sifabora_2.png",
     link: "https://sifabora.africa",
   },
 ];
