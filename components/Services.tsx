@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { SERVICES } from "../constants";
 
 const cardVariants = {
@@ -66,20 +67,28 @@ const Services: React.FC = () => {
         </div>
 
         <motion.div
-          className="text-center mt-12"
+          className="text-center mt-12 flex flex-col sm:flex-row gap-4 justify-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
         >
-          <motion.a
-            href="#contact"
-            className="inline-block bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Discuss Your Project
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/services"
+              className="inline-block border-2 border-primary-900 dark:border-secondary-500 text-primary-900 dark:text-secondary-400 hover:bg-primary-900 hover:text-white dark:hover:bg-secondary-500 dark:hover:text-white font-bold py-3.5 px-10 rounded-xl transition-colors"
+            >
+              View All Services
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/contact"
+              className="inline-block bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
+            >
+              Discuss Your Project
+            </Link>
+          </motion.div>
         </motion.div>
       </div>
     </section>

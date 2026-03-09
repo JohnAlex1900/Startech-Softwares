@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { PROJECTS } from '../constants';
 import ProjectCard from './ProjectCard';
 
@@ -38,6 +39,30 @@ const Projects: React.FC = () => {
             </motion.div>
           ))}
         </div>
+        <motion.div
+          className="text-center mt-12 flex flex-col sm:flex-row gap-4 justify-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/portfolio"
+              className="inline-block bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
+            >
+              View Full Portfolio
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/contact"
+              className="inline-block border-2 border-primary-900 dark:border-secondary-400 text-primary-900 dark:text-secondary-400 hover:bg-primary-900 hover:text-white dark:hover:bg-secondary-400 dark:hover:text-primary-950 font-bold py-3.5 px-10 rounded-xl transition-colors"
+            >
+              Start a Project
+            </Link>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

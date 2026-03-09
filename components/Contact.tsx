@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const EmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
@@ -122,7 +123,7 @@ const Contact: React.FC = () => {
 
           {/* Social links */}
           <motion.div
-            className="flex justify-center gap-4"
+            className="flex justify-center gap-4 mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -145,6 +146,27 @@ const Contact: React.FC = () => {
                 {social.icon}
               </motion.a>
             ))}
+          </motion.div>
+
+          {/* Full Contact Page CTA */}
+          <motion.div
+            className="text-center mt-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
+              >
+                Send Us a Message
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>

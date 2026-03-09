@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
 const SunIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
@@ -32,6 +33,7 @@ const Logo: React.FC = () => (
 const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -39,15 +41,19 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [pathname]);
+
   const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#services", label: "Services" },
-    { href: "#highlights", label: "Why Us" },
-    { href: "#work", label: "Portfolio" },
-    { href: "#contact", label: "Contact" },
+    { to: "/about", label: "About" },
+    { to: "/services", label: "Services" },
+    { to: "/portfolio", label: "Portfolio" },
+    { to: "/contact", label: "Contact" },
   ];
 
-  const handleNavClick = () => setIsMobileOpen(false);
+  const isActive = (to: string) => pathname === to;
 
   return (
     <header
@@ -60,30 +66,35 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
     >
       <nav className="container mx-auto px-6 py-4" aria-label="Main navigation">
         <div className="flex items-center justify-between">
-          <a href="#hero" aria-label="Startech Softwares home">
+          <Link to="/" aria-label="Startech Softwares home">
             <Logo />
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-slate-600 dark:text-slate-300 hover:text-secondary-600 dark:hover:text-secondary-400 transition-colors font-medium text-sm"
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`transition-colors font-medium text-sm ${
+                  isActive(link.to)
+                    ? "text-secondary-600 dark:text-secondary-400"
+                    : "text-slate-600 dark:text-slate-300 hover:text-secondary-600 dark:hover:text-secondary-400"
+                }`}
+                aria-current={isActive(link.to) ? "page" : undefined}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="flex items-center space-x-3">
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="hidden sm:inline-block px-5 py-2 text-sm font-bold text-white bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 rounded-lg transition-colors shadow"
             >
               Get Started
-            </a>
+            </Link>
             <button
               onClick={toggleDarkMode}
               className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-primary-800 transition-colors"
@@ -121,22 +132,25 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
             >
               <div className="flex flex-col gap-3 pt-4">
                 {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleNavClick}
-                    className="text-slate-700 dark:text-slate-300 hover:text-secondary-600 dark:hover:text-secondary-400 font-medium py-1 transition-colors"
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className={`font-medium py-1 transition-colors ${
+                      isActive(link.to)
+                        ? "text-secondary-600 dark:text-secondary-400"
+                        : "text-slate-700 dark:text-slate-300 hover:text-secondary-600 dark:hover:text-secondary-400"
+                    }`}
+                    aria-current={isActive(link.to) ? "page" : undefined}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
-                <a
-                  href="#contact"
-                  onClick={handleNavClick}
+                <Link
+                  to="/contact"
                   className="mt-2 px-5 py-2.5 text-sm font-bold text-white bg-primary-900 hover:bg-primary-800 rounded-lg text-center transition-colors"
                 >
                   Get Started
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}

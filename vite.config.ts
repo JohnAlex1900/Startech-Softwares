@@ -12,6 +12,10 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
-      }
+      },
+      // Support client-side routing (SPA fallback)
+      preview: {
+        port: 4173,
+      },
     };
 });
