@@ -86,11 +86,11 @@ const Contact: React.FC = () => {
                 href: "tel:+254717366686",
                 icon: <PhoneIcon />,
                 label: "Call Us",
-                value: "+254 717 366 686",
+                value: "+254 711 632 577",
                 i: 1,
               },
               {
-                href: "https://wa.me/254717366686",
+                href: "https://wa.me/254711632577",
                 icon: <WhatsAppIcon />,
                 label: "WhatsApp",
                 value: "Chat with us",
