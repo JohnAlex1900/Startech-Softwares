@@ -88,7 +88,9 @@ const Highlights: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               className="text-center bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-secondary-400/40 transition-colors"
             >
-              <div className="text-3xl mb-2" aria-hidden="true">{stat.icon}</div>
+              <div className="text-3xl mb-2" role="img" aria-label={stat.label}>
+                {stat.icon}
+              </div>
               <div className="text-4xl md:text-5xl font-black text-secondary-400 mb-1">
                 {stat.value}
               </div>

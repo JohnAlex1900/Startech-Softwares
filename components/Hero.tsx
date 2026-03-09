@@ -92,9 +92,9 @@ const Hero: React.FC = () => {
           >
             {slide.headline.split(' ').map((word, i, arr) =>
               i === arr.length - 1 || i === arr.length - 2 ? (
-                <span key={i} className="text-secondary-300"> {word}</span>
+                <span key={`${current}-w-${i}`} className="text-secondary-300"> {word}</span>
               ) : (
-                <span key={i}> {word}</span>
+                <span key={`${current}-w-${i}`}> {word}</span>
               )
             )}
           </motion.h1>
