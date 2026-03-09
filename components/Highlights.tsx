@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const stats = [
   { value: "50+", label: "Websites Built", icon: "🌐" },
@@ -157,20 +158,28 @@ const Highlights: React.FC = () => {
 
         {/* CTA */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-16 flex flex-col sm:flex-row gap-4 justify-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <motion.a
-            href="#contact"
-            className="inline-block bg-secondary-500 hover:bg-secondary-400 text-white font-bold py-4 px-12 rounded-xl text-lg shadow-lg shadow-secondary-500/30 transition-colors"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Start Your Project Today
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/contact"
+              className="inline-block bg-secondary-500 hover:bg-secondary-400 text-white font-bold py-4 px-12 rounded-xl text-lg shadow-lg shadow-secondary-500/30 transition-colors"
+            >
+              Start Your Project Today
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              to="/portfolio"
+              className="inline-block border-2 border-white/30 hover:border-secondary-400 text-white hover:text-secondary-300 font-bold py-4 px-12 rounded-xl text-lg transition-colors"
+            >
+              View Our Portfolio
+            </Link>
+          </motion.div>
         </motion.div>
       </div>
     </section>
