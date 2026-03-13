@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const OFFICIAL_LOGO_URL = "https://res.cloudinary.com/dcxdamtgm/image/upload/v1773081049/41230A8E-56CC-4E27-9872-DD4C8E5A9DD3_hui5kr.png";
+
 const Footer = () => {
   const year = new Date().getFullYear();
 
@@ -18,9 +20,12 @@ const Footer = () => {
           {/* Logo & tagline */}
           <div className="flex flex-col items-center md:items-start gap-1">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-gradient-to-br from-secondary-400 to-secondary-600">
-                <span className="text-white font-black text-xs">ST</span>
-              </div>
+              <img
+                src={OFFICIAL_LOGO_URL}
+                alt="Startech Softwares logo"
+                className="w-8 h-8 rounded-lg object-cover"
+                loading="lazy"
+              />
               <span className="font-black text-white text-base tracking-tight">
                 STARTECH <span className="text-secondary-400">Softwares</span>
               </span>

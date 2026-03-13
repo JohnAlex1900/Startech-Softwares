@@ -20,11 +20,16 @@ const heroSlides = [
   },
 ];
 
+const OFFICIAL_LOGO_URL = 'https://res.cloudinary.com/dcxdamtgm/image/upload/v1773081049/41230A8E-56CC-4E27-9872-DD4C8E5A9DD3_hui5kr.png';
+
 const Logo: React.FC = () => (
   <div className="flex items-center gap-3">
-    <div className="relative w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-secondary-400 to-secondary-600 shadow-lg shadow-secondary-500/40">
-      <span className="text-white font-black text-xl tracking-tight">ST</span>
-    </div>
+    <img
+      src={OFFICIAL_LOGO_URL}
+      alt="Startech Softwares logo"
+      className="w-12 h-12 rounded-xl object-cover shadow-lg shadow-secondary-500/40"
+      loading="eager"
+    />
     <div className="text-white">
       <div className="font-black text-xl leading-none tracking-tight">STARTECH</div>
       <div className="text-secondary-300 text-xs font-semibold tracking-widest uppercase leading-none">Softwares</div>

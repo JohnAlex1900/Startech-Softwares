@@ -19,11 +19,16 @@ interface HeaderProps {
   toggleDarkMode: () => void;
 }
 
+const OFFICIAL_LOGO_URL = "https://res.cloudinary.com/dcxdamtgm/image/upload/v1773081049/41230A8E-56CC-4E27-9872-DD4C8E5A9DD3_hui5kr.png";
+
 const Logo: React.FC = () => (
   <div className="flex items-center gap-2.5">
-    <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-gradient-to-br from-secondary-400 to-secondary-600 shadow-md shadow-secondary-500/30">
-      <span className="text-white font-black text-sm tracking-tight">ST</span>
-    </div>
+    <img
+      src={OFFICIAL_LOGO_URL}
+      alt="Startech Softwares logo"
+      className="w-9 h-9 rounded-lg object-cover shadow-md shadow-secondary-500/30"
+      loading="eager"
+    />
     <span className="font-black text-lg text-primary-900 dark:text-white tracking-tight">
       STARTECH <span className="text-secondary-500 dark:text-secondary-400">Softwares</span>
     </span>
