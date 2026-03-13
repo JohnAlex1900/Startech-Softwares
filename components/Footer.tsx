@@ -23,7 +23,7 @@ const Footer = () => {
               <img
                 src={OFFICIAL_LOGO_URL}
                 alt="Startech Softwares logo"
-                className="w-8 h-8 rounded-lg object-cover"
+                className="w-8 h-8 rounded-full object-cover"
                 loading="lazy"
               />
               <span className="font-black text-white text-base tracking-tight">

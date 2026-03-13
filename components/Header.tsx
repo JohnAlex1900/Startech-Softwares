@@ -26,7 +26,7 @@ const Logo: React.FC = () => (
     <img
       src={OFFICIAL_LOGO_URL}
       alt="Startech Softwares logo"
-      className="w-9 h-9 rounded-lg object-cover shadow-md shadow-secondary-500/30"
+      className="w-9 h-9 rounded-full object-cover shadow-md shadow-secondary-500/30"
       loading="eager"
     />
     <span className="font-black text-lg text-primary-900 dark:text-white tracking-tight">
