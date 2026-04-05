@@ -1,6 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const EmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
@@ -20,154 +19,157 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const GithubIcon = () => (
-  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 fill-current" aria-hidden="true">
-    <title>GitHub</title>
-    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-  </svg>
-);
-
-const LinkedInIcon = () => (
-  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 fill-current" aria-hidden="true">
-    <title>LinkedIn</title>
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
-  </svg>
-);
-
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.12, ease: "easeOut" },
+    transition: { duration: 0.55, delay: i * 0.12 },
   }),
 };
 
 const Contact: React.FC = () => {
+  const contactItems = [
+    {
+      href: 'mailto:johnirungu977@gmail.com',
+      icon: <EmailIcon />,
+      label: 'Email',
+      value: 'johnirungu977@gmail.com',
+      description: 'Best for project briefs and detailed requests',
+    },
+    {
+        href: 'tel:+254711632577',
+      icon: <PhoneIcon />,
+      label: 'Call',
+        value: '+254 711 632 577',
+      description: 'Fastest for direct conversations',
+    },
+    {
+        href: 'https://wa.me/254711632577',
+      icon: <WhatsAppIcon />,
+      label: 'WhatsApp',
+      value: 'Start a chat',
+      description: 'Good for quick follow-up questions',
+    },
+  ];
+
   return (
-    <section
-      id="contact"
-      className="py-20 md:py-28 bg-white dark:bg-slate-800/30"
-      aria-labelledby="contact-heading"
-    >
+    <section id="contact" className="py-20 md:py-28 bg-white/75 dark:bg-slate-950/35" aria-labelledby="contact-heading">
       <div className="container mx-auto px-6">
         <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 30 }}
+          className="mx-auto mb-14 max-w-3xl text-center"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55 }}
         >
           <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-            Get In Touch
+            Next step
           </span>
-          <h2
-            id="contact-heading"
-            className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4"
-          >
-            Let's Build Something Great
+          <h2 id="contact-heading" className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
+            Ready to replace guesswork with a clear digital plan?
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Ready to elevate your business? Reach out and let's discuss how we can help you grow.
+            If your business needs a cleaner website, better leads, or faster replies, we can map the first practical steps together.
           </p>
         </motion.div>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-            {[
-              {
-                href: "mailto:johnirungu977@gmail.com",
-                icon: <EmailIcon />,
-                label: "Email Us",
-                value: "johnirungu977@gmail.com",
-                i: 0,
-              },
-              {
-                href: "tel:+254717366686",
-                icon: <PhoneIcon />,
-                label: "Call Us",
-                value: "+254 711 632 577",
-                i: 1,
-              },
-              {
-                href: "https://wa.me/254711632577",
-                icon: <WhatsAppIcon />,
-                label: "WhatsApp",
-                value: "Chat with us",
-                i: 2,
-              },
-            ].map((item) => (
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-10">
+            {contactItems.map((item, index) => (
               <motion.a
                 key={item.label}
                 href={item.href}
-                target={item.href.startsWith("http") ? "_blank" : undefined}
-                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                custom={item.i}
+                target={item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                custom={index}
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: true, margin: '-60px' }}
                 whileHover={{ y: -4, scale: 1.02 }}
-                className="flex flex-col items-center gap-3 p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-secondary-400/50 hover:shadow-lg transition-all text-center group"
+                className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-center transition-all hover:border-secondary-400/50 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/60"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary-900 dark:bg-primary-900/60 text-secondary-400 flex items-center justify-center group-hover:bg-primary-800 transition-colors">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-900 text-secondary-400">
                   {item.icon}
                 </div>
-                <div>
-                  <div className="font-bold text-slate-900 dark:text-white text-sm">{item.label}</div>
-                  <div className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">{item.value}</div>
-                </div>
+                <div className="font-bold text-slate-900 dark:text-white">{item.label}</div>
+                <div className="mt-1 text-sm font-medium text-secondary-600 dark:text-secondary-400">{item.value}</div>
+                <div className="mt-2 text-xs leading-6 text-slate-500 dark:text-slate-400">{item.description}</div>
               </motion.a>
             ))}
           </div>
 
-          {/* Social links */}
-          <motion.div
-            className="flex justify-center gap-4 mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-          >
-            {[
-              { href: "https://github.com/JohnAlex1900", icon: <GithubIcon />, label: "GitHub" },
-              { href: "https://www.linkedin.com/in/john-njoroge-927128258", icon: <LinkedInIcon />, label: "LinkedIn" },
-            ].map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-primary-900 hover:text-white dark:hover:bg-primary-700 flex items-center justify-center transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {social.icon}
-              </motion.a>
-            ))}
-          </motion.div>
-
-          {/* Full Contact Page CTA */}
-          <motion.div
-            className="text-center mt-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
-              >
-                Send Us a Message
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              </Link>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.9fr]">
+            <motion.div
+              className="rounded-[2rem] bg-primary-950 p-8 text-white shadow-2xl shadow-primary-950/20"
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6 }}
+            >
+              <h3 className="text-2xl font-black mb-3">What happens when you reach out?</h3>
+              <p className="text-primary-200/75 leading-7 mb-6">
+                We start with your current bottleneck, look at your existing presence, and outline a realistic way to improve the result without bloating the process.
+              </p>
+              <div className="space-y-4">
+                {[
+                  'Quick discussion of your goals and current challenge',
+                  'A short recommendation on the best starting point',
+                  'Clear next steps, pricing direction, and timeline expectations',
+                ].map((step) => (
+                  <div key={step} className="flex gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div className="mt-1 h-2.5 w-2.5 rounded-full bg-secondary-400" />
+                    <p className="text-sm leading-6 text-primary-100/85">{step}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="https://wa.me/254711632577?text=Hi%2C%20I%27d%20like%20to%20discuss%20my%20business%20website"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl bg-secondary-500 px-6 py-3.5 font-bold text-white transition-colors hover:bg-secondary-400"
+                >
+                  Message on WhatsApp
+                </a>
+                <a
+                  href="mailto:johnirungu977@gmail.com"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/15 px-6 py-3.5 font-bold text-white transition-colors hover:border-secondary-400 hover:text-secondary-200"
+                >
+                  Send an email brief
+                </a>
+              </div>
             </motion.div>
-          </motion.div>
+
+            <motion.div
+              className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_12px_40px_rgba(15,23,42,0.06)] dark:border-slate-700 dark:bg-slate-900/70"
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6 }}
+            >
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Who this is for</h3>
+              <div className="space-y-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                <p>
+                  Business owners who have a presence online but feel the messaging is not converting.
+                </p>
+                <p>
+                  Teams that need a better website, sharper content, and automation that responds quickly when prospects reach out.
+                </p>
+                <p>
+                  Brands that want to look more established without overcomplicating the process or the budget.
+                </p>
+              </div>
+
+              <div className="mt-6 rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/70">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary-600 dark:text-secondary-400">Response expectation</p>
+                <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  We aim to respond within 2 business hours during working days, and WhatsApp enquiries are usually handled faster.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

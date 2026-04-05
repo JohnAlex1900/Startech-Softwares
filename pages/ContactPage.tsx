@@ -41,7 +41,7 @@ const contactMethods = [
     label: "Email Us",
     value: "johnirungu977@gmail.com",
     href: "mailto:johnirungu977@gmail.com",
-    desc: "We reply within 2 business hours",
+    desc: "Best for detailed project briefs",
   },
   {
     icon: (
@@ -50,8 +50,8 @@ const contactMethods = [
       </svg>
     ),
     label: "Call Us",
-    value: "+254 717 366 686",
-    href: "tel:+254717366686",
+    value: "+254 711 632 577",
+    href: "tel:+254711632577",
     desc: "Mon – Sat, 8am – 6pm EAT",
   },
   {
@@ -61,9 +61,9 @@ const contactMethods = [
       </svg>
     ),
     label: "WhatsApp",
-    value: "+254 717 366 686",
-    href: "https://wa.me/254717366686",
-    desc: "Available 24/7 for quick queries",
+    value: "+254 711 632 577",
+    href: "https://wa.me/254711632577",
+    desc: "Best for fast follow-up questions",
   },
   {
     icon: (
@@ -75,7 +75,7 @@ const contactMethods = [
     label: "Office",
     value: "Nairobi, Kenya",
     href: "https://maps.google.com/?q=Nairobi,Kenya",
-    desc: "East Africa's digital hub",
+    desc: "Serving clients across Kenya and beyond",
   },
 ];
 
@@ -152,14 +152,14 @@ const ContactPage: React.FC = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <span className="inline-block text-secondary-400 font-bold text-sm uppercase tracking-widest mb-4">
-              Get In Touch
+              Start the conversation
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Let's Build Something{" "}
-              <span className="text-secondary-300">Great Together</span>
+              Let’s map the{" "}
+              <span className="text-secondary-300">best next step</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              Have a project in mind? We'd love to hear about it. Reach out and let's discuss how we can help your business grow digitally.
+              If your business needs better enquiries, clearer messaging, or faster customer response, send us the details and we’ll help you choose the right starting point.
             </p>
           </motion.div>
         </div>
@@ -210,9 +210,9 @@ const ContactPage: React.FC = () => {
               transition={{ duration: 0.7 }}
             >
               <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-10 shadow-xl border border-slate-100 dark:border-slate-700">
-                <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Send Us a Message</h2>
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Tell us what is not working</h2>
                 <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">
-                  Fill in the form below and we'll get back to you within 2 business hours.
+                  Fill in the form below and we’ll respond with a practical next step within 2 business hours.
                 </p>
 
                 {submitted ? (
@@ -404,7 +404,7 @@ const ContactPage: React.FC = () => {
                 <h3 className="text-white font-black text-lg mb-4">Prefer a faster option?</h3>
                 <div className="space-y-3">
                   <a
-                    href="https://wa.me/254717366686?text=Hi%2C%20I%27m%20interested%20in%20your%20services"
+                    href="https://wa.me/254711632577?text=Hi%2C%20I%27m%20interested%20in%20your%20services"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] font-semibold py-3 px-4 rounded-xl transition-colors text-sm"

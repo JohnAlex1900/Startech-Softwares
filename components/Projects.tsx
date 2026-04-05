@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -7,61 +6,59 @@ import ProjectCard from './ProjectCard';
 
 const Projects: React.FC = () => {
   return (
-    <section id="work" className="py-20 md:py-28 bg-white dark:bg-slate-800/30" aria-labelledby="work-heading">
+    <section id="work" className="py-20 md:py-28 bg-white/80 dark:bg-slate-950/35" aria-labelledby="work-heading">
       <div className="container mx-auto px-6">
         <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 30 }}
+          className="mx-auto mb-14 max-w-3xl text-center"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55 }}
         >
           <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-            Portfolio
+            Proof of work
           </span>
           <h2 id="work-heading" className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-            Our Work
+            Selected projects that improved clarity, trust, and lead quality
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            A selection of projects that showcase our commitment to quality and innovation.
+          <p className="text-lg text-slate-600 dark:text-slate-300">
+            These examples show how we approach websites as conversion tools, not just visual assets.
           </p>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {PROJECTS.map((project, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
+              key={project.title}
+              initial={{ opacity: 0, y: 34 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
             >
               <ProjectCard project={project} />
             </motion.div>
           ))}
         </div>
+
         <motion.div
-          className="text-center mt-12 flex flex-col sm:flex-row gap-4 justify-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="mt-12 flex flex-col gap-4 text-center sm:flex-row sm:justify-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ duration: 0.45, delay: 0.15 }}
         >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Link
-              to="/portfolio"
-              className="inline-block bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-3.5 px-10 rounded-xl shadow-lg transition-colors"
-            >
-              View Full Portfolio
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Link
-              to="/contact"
-              className="inline-block border-2 border-primary-900 dark:border-secondary-400 text-primary-900 dark:text-secondary-400 hover:bg-primary-900 hover:text-white dark:hover:bg-secondary-400 dark:hover:text-primary-950 font-bold py-3.5 px-10 rounded-xl transition-colors"
-            >
-              Start a Project
-            </Link>
-          </motion.div>
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center justify-center rounded-xl border-2 border-primary-900 px-7 py-3.5 font-bold text-primary-900 transition-colors hover:bg-primary-900 hover:text-white dark:border-secondary-400 dark:text-secondary-300 dark:hover:bg-secondary-400 dark:hover:text-primary-950"
+          >
+            Open the full portfolio
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center rounded-xl bg-primary-900 px-7 py-3.5 font-bold text-white shadow-lg shadow-primary-900/15 transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
+          >
+            Discuss a similar project
+          </Link>
         </motion.div>
       </div>
     </section>

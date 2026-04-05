@@ -22,7 +22,7 @@ const portfolioItems = [
   })),
   {
     title: "TechBridge Kenya",
-    description: "Complete social media management and WhatsApp automation setup for a technology consulting firm, boosting engagement by 300%.",
+    description: "Social content planning and WhatsApp automation for a tech consultancy, helping the team stay responsive after social posts and campaigns.",
     technologies: ["WhatsApp API", "Instagram", "Facebook", "Content Strategy"],
     imageUrl: "",
     link: "#",
@@ -31,7 +31,7 @@ const portfolioItems = [
   },
   {
     title: "AfriHarvest Co-op",
-    description: "Instagram growth strategy and content creation for an agricultural cooperative, growing their following from 200 to 8,000 in 6 months.",
+    description: "A simple content system and visual refresh for an agricultural cooperative, built to make the brand feel more active and trustworthy online.",
     technologies: ["Instagram", "Canva", "Content Calendar", "Analytics"],
     imageUrl: "",
     link: "#",
@@ -40,7 +40,7 @@ const portfolioItems = [
   },
   {
     title: "Nairobi Real Estate Hub",
-    description: "AI-powered WhatsApp automation system handling 500+ daily property inquiries, reducing response time from hours to seconds.",
+    description: "A WhatsApp enquiry flow for a property business, helping common questions get answered faster and improving lead handoff.",
     technologies: ["WhatsApp Business API", "Node.js", "OpenAI", "Firebase"],
     imageUrl: "",
     link: "#",
@@ -49,7 +49,7 @@ const portfolioItems = [
   },
   {
     title: "SafariLink Tours",
-    description: "Complete brand identity overhaul including logo design, color system, and website redesign for a Kenyan tour operator.",
+    description: "A visual identity and website refresh for a Kenyan tour operator, making the brand feel more polished and easier to trust.",
     technologies: ["Figma", "Brand Strategy", "React", "Tailwind CSS"],
     imageUrl: "",
     link: "#",
@@ -60,31 +60,31 @@ const portfolioItems = [
 
 const testimonials = [
   {
-    quote: "Startech completely transformed our online presence. Our leads doubled within 3 months of launching the new website. The team was professional, responsive, and genuinely cared about our success.",
+    quote: "The new website made our services easier to understand, and people started reaching out with better enquiries instead of just browsing.",
     name: "James Mwangi",
-    role: "CEO, Gift & Sons International",
+    role: "Business Owner, Gift & Sons International",
     initials: "JM",
     project: "Website Development",
     rating: 5,
   },
   {
-    quote: "The SEO and social media work they did for us was outstanding. We rank on the first page of Google for our key terms now, and our organic traffic has tripled since we started working with Startech.",
+    quote: "What changed most was speed. Customers got quicker responses on WhatsApp and our team stopped missing leads after hours.",
     name: "Amina Hassan",
-    role: "Marketing Director, Sifabora Africa",
+    role: "Operations Lead, Sifabora Africa",
     initials: "AH",
     project: "SEO & Social Media",
     rating: 5,
   },
   {
-    quote: "Their WhatsApp automation has saved us hours every day. Customers get instant replies and our team can focus on what matters. The ROI has been incredible — I wish we'd done this sooner.",
+    quote: "The content and structure helped us look more credible online. We now have a cleaner path from social media to enquiry.",
     name: "Brian Kariuki",
-    role: "Operations Manager, TechBridge Kenya",
+    role: "Founder, TechBridge Kenya",
     initials: "BK",
     project: "WhatsApp Automation",
     rating: 5,
   },
   {
-    quote: "Working with Startech was a game-changer for our social media presence. They understand our audience, create incredible content, and the results speak for themselves — our engagement is through the roof.",
+    quote: "The visual refresh made the brand feel more established, and the website became easier for prospects to trust quickly.",
     name: "Wanjiru Kamau",
     role: "Brand Manager, AfriHarvest Co-op",
     initials: "WK",
@@ -131,14 +131,14 @@ const PortfolioPage: React.FC = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <span className="inline-block text-secondary-400 font-bold text-sm uppercase tracking-widest mb-4">
-              Our Work
+              Selected proof
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Work That{" "}
-              <span className="text-secondary-300">Speaks for Itself</span>
+              Proof of{" "}
+              <span className="text-secondary-300">Practical Results</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              A showcase of transformative digital projects — from websites and social media campaigns to AI-powered automation systems that drive real results.
+              A selection of websites and digital systems built to improve clarity, lift trust, and make enquiry paths easier for real customers.
             </p>
           </motion.div>
         </div>
@@ -149,10 +149,10 @@ const PortfolioPage: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { value: "50+", label: "Projects Delivered" },
-              { value: "30+", label: "Happy Clients" },
-              { value: "8", label: "Industry Sectors" },
-              { value: "3", label: "Countries Served" },
+              { value: "12+", label: "Projects Shipped" },
+              { value: "8+", label: "Active client relationships" },
+              { value: "5", label: "Core service areas" },
+              { value: "2", label: "Featured case studies" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -180,13 +180,13 @@ const PortfolioPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-              Portfolio
+              Selected proof
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Featured Projects
+              Work that improved business clarity
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Browse our work across websites, social media, automation, and branding.
+              Browse examples of the kinds of solutions we build for business owners who need to convert more of the traffic they already have.
             </p>
           </motion.div>
 
@@ -291,13 +291,13 @@ const PortfolioPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-              Client Spotlight
+              Client spotlight
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              High-Profile Projects
+              Impact snapshots
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              In-depth look at some of our most impactful client partnerships.
+              A closer look at how we structure the work, what changed, and why each project mattered to the business.
             </p>
           </motion.div>
 
@@ -477,10 +477,10 @@ const PortfolioPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Ready to Become Our Next Success Story?
+              Ready to make your next project easier to trust?
             </h2>
             <p className="text-slate-600 dark:text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
-              Let's create something remarkable together. Your project could be our next featured work.
+              If you want the site, content, and automation to work together more cleanly, we can map the next step.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
@@ -488,7 +488,7 @@ const PortfolioPage: React.FC = () => {
                   to="/contact"
                   className="inline-block bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 text-white font-bold py-4 px-10 rounded-xl text-lg shadow-lg transition-colors"
                 >
-                  Start Your Project
+                  Start a conversation
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
@@ -496,7 +496,7 @@ const PortfolioPage: React.FC = () => {
                   to="/services"
                   className="inline-block border-2 border-primary-900 dark:border-secondary-400 text-primary-900 dark:text-secondary-400 hover:bg-primary-900 hover:text-white dark:hover:bg-secondary-400 dark:hover:text-primary-950 font-bold py-4 px-10 rounded-xl text-lg transition-colors"
                 >
-                  Explore Services
+                  Explore services
                 </Link>
               </motion.div>
             </div>

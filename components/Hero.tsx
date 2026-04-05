@@ -1,174 +1,231 @@
-
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    headline: 'Empowering Businesses with Digital Excellence',
-    sub: 'We craft powerful digital experiences — from websites and apps to AI-powered automation that drives real results.',
-    bg: 'from-primary-950 via-primary-900 to-primary-800',
+    eyebrow: 'Built for small businesses',
+    headline: 'Turn website visitors into real enquiries',
+    sub: 'We redesign your online presence so people understand your offer quickly, trust your brand faster, and know exactly how to contact you.',
   },
   {
-    headline: 'Your Growth, Powered by Smart Technology',
-    sub: 'SEO management, social media mastery, and WhatsApp automation built to scale your business in the digital era.',
-    bg: 'from-primary-900 via-primary-800 to-secondary-900',
+    eyebrow: 'Solve the bottlenecks',
+    headline: 'Reply faster, look sharper, and sell more consistently',
+    sub: 'From websites and content to WhatsApp automation and SEO, we remove the gaps that make interested customers go cold.',
   },
   {
-    headline: '50+ Businesses Transformed Online',
-    sub: 'From local startups to international enterprises — we build the digital presence your brand deserves.',
-    bg: 'from-secondary-900 via-primary-900 to-primary-950',
+    eyebrow: 'Practical digital growth',
+    headline: 'A complete system for visibility, trust, and conversions',
+    sub: 'We combine design, marketing, and automation so your business feels active, credible, and easy to work with.',
   },
 ];
 
-const OFFICIAL_LOGO_URL = 'https://res.cloudinary.com/dcxdamtgm/image/upload/v1773081049/41230A8E-56CC-4E27-9872-DD4C8E5A9DD3_hui5kr.png';
-
-const Logo: React.FC = () => (
-  <div className="flex items-center gap-3">
-    <img
-      src={OFFICIAL_LOGO_URL}
-      alt="Startech Softwares logo"
-      className="w-12 h-12 rounded-full object-cover shadow-lg shadow-secondary-500/40"
-      loading="eager"
-    />
-    <div className="text-white">
-      <div className="font-black text-xl leading-none tracking-tight">STARTECH</div>
-      <div className="text-secondary-300 text-xs font-semibold tracking-widest uppercase leading-none">Softwares</div>
-    </div>
-  </div>
+// Custom SVG Icons for Proof Points
+const ClockIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
 );
+
+const ZapIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+);
+
+const IntegrateIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+    <path d="M12 5v14M5 12h14" />
+    <circle cx="12" cy="12" r="1" fill="currentColor" />
+    <path d="M7 7l-2-2m10 0l2-2m-14 14l-2 2m14 0l2 2" />
+  </svg>
+);
+
+const proofPoints = [
+  { value: '2-4 weeks', label: 'typical website turnaround', icon: ClockIcon },
+  { value: '24/7', label: 'automated enquiry support', icon: ZapIcon },
+  { value: '1 place', label: 'for design, content, and growth', icon: IntegrateIcon },
+];
+
+const focusAreas = [
+  { text: 'Website redesigns', icon: '🌐' },
+  { text: 'Lead capture systems', icon: '🎯' },
+  { text: 'WhatsApp automation', icon: '💬' },
+  { text: 'SEO and content', icon: '📈' },
+];
 
 const Hero: React.FC = () => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = window.setInterval(() => {
       setCurrent((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    }, 6000);
+
+    return () => window.clearInterval(timer);
   }, []);
 
   const slide = heroSlides[current];
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center text-center overflow-hidden"
-      aria-label="Hero section"
-    >
-      {/* Animated gradient background */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current}
-          className={`absolute inset-0 bg-gradient-to-br ${slide.bg}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
-        />
-      </AnimatePresence>
+    <section className="relative overflow-hidden border-b border-slate-200/60 dark:border-white/5">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-slate-950" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:44px_44px] opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.16),transparent_25%)]" />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <div className="relative container mx-auto px-6 py-20 md:py-28 lg:py-32">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`hero-${current}`}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{ duration: 0.55, ease: 'easeOut' }}
+                className="max-w-3xl"
+              >
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-secondary-300">
+                  {slide.eyebrow}
+                </span>
+                <h1 className="mt-6 text-4xl font-black leading-tight text-white md:text-6xl lg:text-7xl">
+                  {slide.headline}
+                </h1>
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-200/85 md:text-lg">
+                  {slide.sub}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
-      {/* Radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(6,182,212,0.15),transparent)]" />
+            <motion.div
+              className="mt-8 flex flex-wrap gap-3"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              {focusAreas.map((item) => (
+                <span
+                  key={item.text}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-100/90 hover:border-secondary-300/40 hover:bg-white/8 transition-all"
+                >
+                  <span className="text-base">{item.icon}</span>
+                  {item.text}
+                </span>
+              ))}
+            </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 py-24 flex flex-col items-center">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="mb-10"
-        >
-          <Logo />
-        </motion.div>
+            <motion.div
+              className="mt-10 flex flex-col gap-4 sm:flex-row"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.18 }}
+            >
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-xl bg-secondary-400 px-7 py-4 font-bold text-primary-950 shadow-lg shadow-cyan-500/20 transition-transform hover:-translate-y-0.5"
+              >
+                Book a Discovery Call
+              </Link>
+              <a
+                href="#services"
+                className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 py-4 font-bold text-white backdrop-blur-sm transition-colors hover:border-secondary-300 hover:text-secondary-200"
+              >
+                See the Solutions
+              </a>
+            </motion.div>
 
-        {/* Slide headline */}
-        <AnimatePresence mode="wait">
-          <motion.h1
-            key={`h-${current}`}
-            className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight max-w-5xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            <div className="mt-12 grid gap-4 sm:grid-cols-3">
+              {proofPoints.map((point, index) => {
+                const IconComponent = point.icon;
+                return (
+                  <motion.div
+                    key={point.label}
+                    className="group rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 to-white/3 p-5 backdrop-blur-sm hover:border-secondary-300/30 hover:from-white/12 hover:to-white/6 transition-all"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.2 + index * 0.08 }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 p-2 rounded-lg bg-secondary-400/10 group-hover:bg-secondary-400/15 transition-colors">
+                        <IconComponent />
+                        <style>{`.text-secondary-300 { color: rgb(34, 211, 238); }`}</style>
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-2xl font-black text-secondary-300">{point.value}</div>
+                        <div className="mt-1 text-sm leading-5 text-slate-200/75">{point.label}</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          <motion.aside
+            className="relative"
+            initial={{ opacity: 0, x: 32 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            {slide.headline.split(' ').map((word, i, arr) =>
-              i === arr.length - 1 || i === arr.length - 2 ? (
-                <span key={`${current}-w-${i}`} className="text-secondary-300"> {word}</span>
-              ) : (
-                <span key={`${current}-w-${i}`}> {word}</span>
-              )
-            )}
-          </motion.h1>
-        </AnimatePresence>
+            <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 shadow-2xl shadow-slate-950/30 backdrop-blur-xl">
+              <div className="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-white/12 to-white/5 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary-300">What your clients need</div>
+                    <div className="mt-2 text-xl font-bold text-white">A clear next step</div>
+                  </div>
+                  <div className="rounded-full bg-secondary-400/15 px-3 py-1 text-xs font-semibold text-secondary-200">Live support</div>
+                </div>
 
-        {/* Slide sub */}
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={`p-${current}`}
-            className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto mb-10 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-          >
-            {slide.sub}
-          </motion.p>
-        </AnimatePresence>
+                <div className="mt-6 space-y-3">
+                  {[
+                    { text: 'A website that explains the offer in seconds', icon: '✓' },
+                    { text: 'Pricing and service details that reduce uncertainty', icon: '✓' },
+                    { text: 'A fast way to ask questions or request a quote', icon: '✓' },
+                    { text: 'Social proof that builds confidence before the first call', icon: '✓' },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item.text}
+                      className="flex gap-3 rounded-xl border border-white/8 bg-white/5 p-4 hover:bg-white/8 hover:border-secondary-400/30 transition-all group"
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.35 + index * 0.06 }}
+                    >
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-secondary-400/20 text-xs font-bold text-secondary-300 group-hover:bg-secondary-400/30 transition-colors">
+                        {item.icon}
+                      </div>
+                      <p className="text-sm leading-5.5 text-slate-200/80">{item.text}</p>
+                    </motion.div>
+                  ))}
+                </div>
 
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-        >
-          <motion.a
-            href="#services"
-            className="inline-block bg-secondary-500 hover:bg-secondary-400 text-white font-bold py-4 px-10 rounded-xl text-lg shadow-lg shadow-secondary-500/40 transition-colors"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Explore Services
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="inline-block border-2 border-white/30 hover:border-secondary-400 text-white hover:text-secondary-300 font-bold py-4 px-10 rounded-xl text-lg backdrop-blur-sm transition-colors"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Get In Touch
-          </motion.a>
-        </motion.div>
+                <div className="mt-6 rounded-2xl bg-primary-900/80 p-5">
+                  <div className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary-300">Typical outcome</div>
+                  <p className="mt-2 text-base leading-7 text-slate-100">
+                    A cleaner site, quicker customer response, and a more confident first impression for people who discover you on social media.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-        {/* Slide indicators */}
-        <div className="flex gap-2 mt-14">
-          {heroSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === current ? 'bg-secondary-400 w-8' : 'bg-white/30 w-3'
-              }`}
-            />
-          ))}
+            <div className="absolute -bottom-6 -left-4 hidden rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/90 shadow-lg shadow-black/20 backdrop-blur md:block">
+              Designed for service businesses, startups, and local brands
+            </div>
+          </motion.aside>
         </div>
       </div>
 
-      {/* Scroll cue */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-      >
-        <svg className="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </motion.div>
+      <div className="absolute inset-x-0 bottom-5 flex justify-center gap-2">
+        {heroSlides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            aria-label={`Go to hero slide ${index + 1}`}
+            className={`h-2 rounded-full transition-all ${index === current ? 'w-10 bg-secondary-400' : 'w-3 bg-white/30'}`}
+          />
+        ))}
+      </div>
     </section>
   );
 };

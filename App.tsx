@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
+import PricingTiers from './components/PricingTiers';
 import Highlights from './components/Highlights';
 import Projects from './components/Projects';
 import TechStack from './components/TechStack';
@@ -30,6 +31,7 @@ const HomePage: React.FC = () => (
     <Hero />
     <About />
     <Services />
+    <PricingTiers />
     <Highlights />
     <Projects />
     <TechStack />

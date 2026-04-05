@@ -1,5 +1,5 @@
 import React from "react";
-import type { Project, Service, Tech } from "./types";
+import type { OneTimeSetup, Project, PricingTier, Service, Tech } from "./types";
 
 // --- SERVICE ICONS ---
 
@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
   {
     title: "Gift & Sons International",
     description:
-      "A corporate website for an international real estate agency, featuring a clean design and clear service presentation.",
+      "A polished corporate website for a real estate team, rebuilt to make property enquiries clearer and improve trust at first glance.",
     technologies: ["React", "Tailwind CSS", "Node.js", "Express"],
     imageUrl: "/assets/giftandsons.png",
     link: "https://giftandsonsinternational.com",
@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
   {
     title: "Sifabora Africa",
     description:
-      "An online presence and reputation management agency from a reputable organization in Kenya, which operates internationally.",
+      "A credibility-focused marketing presence for a reputation management brand, with stronger messaging and easier service discovery.",
     technologies: ["API", "Firebase", "React", "Google Cloud"],
     imageUrl: "/assets/sifabora_2.png",
     link: "https://sifabora.africa",
@@ -77,49 +77,49 @@ export const SERVICES: Service[] = [
     icon: <WebDevIcon />,
     title: "Website Development",
     description:
-      "Custom, fast, and responsive websites built for your business — from corporate landing pages to complex web applications.",
+      "Modern websites that make your offer easy to understand, build trust quickly, and guide visitors toward contacting you.",
   },
   {
     icon: <AppDevIcon />,
     title: "App Development",
     description:
-      "High-performance cross-platform mobile apps for iOS and Android that engage users and drive conversions.",
+      "Practical mobile apps for Android and iPhone that help you serve customers, accept requests, and manage workflows on the move.",
   },
   {
     icon: <SEOIcon />,
     title: "SEO Management",
     description:
-      "End-to-end SEO strategies that improve your Google rankings, drive organic traffic, and grow your online authority.",
+      "Search strategy and technical improvements that help local customers find you when they are actively looking for your service.",
   },
   {
     icon: <ContentIcon />,
     title: "Content Creation",
     description:
-      "Compelling blog posts, website copy, and marketing content crafted to engage your target audience and boost conversions.",
+      "Clear website copy, social posts, and simple content systems that answer customer questions and support sales.",
   },
   {
     icon: <SocialMediaIcon />,
     title: "Social Media Management",
     description:
-      "Strategic management of your Instagram, Facebook, Twitter, and LinkedIn — growing your following and brand presence.",
+      "Content planning, posting, and engagement support that keeps your brand visible without draining your time.",
   },
   {
     icon: <WhatsAppIcon />,
     title: "WhatsApp & Social Automation",
     description:
-      "AI-powered auto-replies for WhatsApp, Instagram DMs, and other platforms to engage leads 24/7 without manual effort.",
+      "Automated replies and lead capture flows for WhatsApp and social platforms, so enquiries are never left waiting.",
   },
   {
     icon: <AICallIcon />,
     title: "AI Call Agents",
     description:
-      "Intelligent AI-powered voice agents that handle customer inquiries, bookings, and support calls around the clock.",
+      "Voice assistants that answer routine questions, collect details, and route serious leads to your team.",
   },
   {
     icon: <UIDesignIcon />,
     title: "UI/UX Design",
     description:
-      "Intuitive, visually stunning interfaces designed to delight users and maximize engagement from first click to conversion.",
+      "Clean user experiences that reduce friction, make information easier to scan, and support better conversion.",
   },
 ];
 
@@ -180,4 +180,74 @@ export const TECH_STACK: Tech[] = [
   },
 ];
 
+export const PRICING_TIERS: PricingTier[] = [
+  {
+    name: "Foundation",
+    price: "KES 12,000",
+    period: "/ month",
+    bestFor: "Businesses starting or with low online presence",
+    includes: [
+      "Social media presence setup & optimization",
+      "8–10 professional posts/reels monthly",
+      "Branding consistency (visual identity)",
+      "Basic content strategy",
+    ],
+    valueDelivered: "Your business becomes visible, active, and trustworthy online.",
+    expected30DayOutcome: "A cleaner brand presence, active social pages, and more first-time customer trust when people discover your business.",
+    highlighted: false,
+  },
+  {
+    name: "Growth",
+    price: "KES 20,000",
+    period: "/ month",
+    bestFor: "Businesses ready to increase customers and inquiries",
+    includes: [
+      "Everything in Foundation PLUS",
+      "Increased content output (12–16 posts/reels)",
+      "WhatsApp / DM automation setup",
+      "Lead capture system",
+      "Customer engagement (messages, comments)",
+      "Monthly growth strategy",
+    ],
+    valueDelivered: "A system that consistently brings in new customer inquiries and bookings.",
+    expected30DayOutcome: "Noticeably more inbound inquiries, faster response handling, and a clearer lead pipeline for follow-up and booking.",
+    positioningLine: "This is where your social media starts working as a customer acquisition tool.",
+    highlighted: true,
+  },
+  {
+    name: "Scale",
+    price: "KES 35,000",
+    period: "/ month",
+    bestFor: "Businesses serious about scaling and dominating locally",
+    includes: [
+      "Everything in Growth PLUS",
+      "Advanced automation systems",
+      "Google/SEO optimization",
+      "Conversion-focused website or landing page",
+      "Reputation management (reviews strategy)",
+      "Full digital growth strategy",
+    ],
+    valueDelivered: "A complete system that attracts, converts, and retains customers automatically.",
+    expected30DayOutcome: "A stronger growth engine with better lead quality, improved conversion flow, and less manual effort across your customer journey.",
+    highlighted: false,
+  },
+];
+
+export const ONE_TIME_SETUPS: OneTimeSetup[] = [
+  {
+    name: "Website / Booking System",
+    price: "KES 30,000",
+    description: "A platform that converts visitors into paying customers.",
+  },
+  {
+    name: "Customer Response Automation",
+    price: "KES 10,000",
+    description: "Ensures every inquiry is captured and responded to instantly.",
+  },
+  {
+    name: "Google Business & Local SEO",
+    price: "KES 8,000",
+    description: "Helps your business appear when customers search nearby.",
+  },
+];
 

@@ -31,7 +31,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-primary-300/50 text-xs mt-1">
-              Empowering Businesses with Digital Excellence
+              Websites, automation, and content for growing businesses
             </p>
           </div>
 

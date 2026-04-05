@@ -77,15 +77,15 @@ const milestones = [
   { year: "2020", title: "Founded", desc: "Startech Softwares was established with a vision to empower businesses through digital transformation." },
   { year: "2021", title: "First 10 Clients", desc: "Delivered websites and digital strategies for 10 businesses across Kenya, from startups to SMEs." },
   { year: "2022", title: "Expanded Services", desc: "Launched AI automation services including WhatsApp bots, Instagram auto-replies, and SEO management." },
-  { year: "2023", title: "50+ Projects", desc: "Surpassed 50 successful projects and 30 satisfied businesses across East Africa and beyond." },
+  { year: "2023", title: "Expanded Delivery", desc: "Supported more businesses with clearer websites, stronger content, and faster response systems." },
   { year: "2024", title: "AI Call Agents", desc: "Introduced intelligent AI call agents, revolutionizing how businesses handle customer communication." },
   { year: "2025", title: "International Expansion", desc: "Serving clients internationally with a growing team and an expanded suite of digital services." },
 ];
 
 const stats = [
-  { value: "50+", label: "Projects Delivered" },
-  { value: "30+", label: "Businesses Served" },
-  { value: "99%", label: "Client Satisfaction" },
+  { value: "12+", label: "Projects Delivered" },
+  { value: "8+", label: "Businesses Served" },
+  { value: "95%", label: "Client Satisfaction" },
   { value: "5+", label: "Years of Experience" },
 ];
 
@@ -110,7 +110,7 @@ const AboutPage: React.FC = () => {
               <span className="text-secondary-300">Startech Softwares</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              We are a passionate digital agency dedicated to empowering businesses with innovative technology, strategic digital marketing, and intelligent automation solutions.
+              We help businesses present themselves more clearly online, respond faster to new enquiries, and build digital systems that support steady growth.
             </p>
           </motion.div>
         </div>
@@ -153,7 +153,7 @@ const AboutPage: React.FC = () => {
                   Who We Are
                 </span>
                 <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
-                  A Digital Agency Built for{" "}
+                  A Practical Partner for{" "}
                   <span className="text-primary-900 dark:text-secondary-400">Business Growth</span>
                 </h2>
               </motion.div>
@@ -165,7 +165,7 @@ const AboutPage: React.FC = () => {
                 custom={1}
                 variants={fadeUp}
               >
-                At <span className="font-bold text-primary-900 dark:text-white">Startech Softwares</span>, we specialize in delivering comprehensive digital services that help businesses establish, grow, and dominate their online presence. Founded with a clear purpose — to bridge the gap between technology and business growth — we've grown into a trusted digital partner for companies across East Africa and beyond.
+                At <span className="font-bold text-primary-900 dark:text-white">Startech Softwares</span>, we focus on the parts of your digital presence that directly affect customer decisions: messaging, trust, speed, and response. The goal is simple — help good businesses look credible and convert interest into action.
               </motion.p>
               <motion.p
                 className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-5"
@@ -175,7 +175,7 @@ const AboutPage: React.FC = () => {
                 custom={2}
                 variants={fadeUp}
               >
-                From sleek websites and custom apps to intelligent automation and strategic SEO, we offer an end-to-end digital ecosystem. We serve <span className="font-semibold text-secondary-600 dark:text-secondary-400">startups, SMEs, and established enterprises</span> — combining technical expertise with creative vision to deliver measurable outcomes.
+                From modern websites and content structure to SEO and automation, we build the essentials that help smaller teams stay visible and responsive. We work best with <span className="font-semibold text-secondary-600 dark:text-secondary-400">startups, SMEs, and service businesses</span> that need real support, not vague promises.
               </motion.p>
               <motion.p
                 className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed"
@@ -285,7 +285,7 @@ const AboutPage: React.FC = () => {
               <span className="text-secondary-400">Every Milestone</span>
             </h2>
             <p className="text-lg text-primary-200/70 max-w-2xl mx-auto">
-              From humble beginnings to a thriving digital agency — here's how our story unfolded.
+              From early projects to a focused business-support practice — here is how the work evolved.
             </p>
           </motion.div>
 
@@ -342,11 +342,11 @@ const AboutPage: React.FC = () => {
               </h2>
               <div className="space-y-4">
                 {[
-                  "End-to-end digital services under one roof — no need to juggle multiple vendors",
-                  "AI-powered solutions that give your business a 24/7 competitive advantage",
+                  "End-to-end support under one roof — no need to juggle multiple vendors",
+                  "Automation that helps you stay responsive when customers reach out",
                   "Transparent pricing with no hidden fees or surprise costs",
-                  "Dedicated support team available whenever you need assistance",
-                  "Proven track record with 50+ successful projects delivered",
+                  "Dedicated support when your project needs attention",
+                  "A practical track record with real client work delivered",
                   "Deep understanding of both local and international markets",
                 ].map((item, i) => (
                   <motion.div
@@ -412,10 +412,10 @@ const AboutPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Ready to Transform Your Business?
+              Ready to improve how your business shows up online?
             </h2>
             <p className="text-primary-200/80 text-lg mb-8 max-w-2xl mx-auto">
-              Let's work together to build something extraordinary. Your digital success story starts here.
+              If you want a clearer website, faster response flow, or stronger credibility, we can help you choose the best place to start.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
@@ -423,7 +423,7 @@ const AboutPage: React.FC = () => {
                   to="/contact"
                   className="inline-block bg-secondary-500 hover:bg-secondary-400 text-white font-bold py-4 px-10 rounded-xl text-lg shadow-lg shadow-secondary-500/30 transition-colors"
                 >
-                  Get In Touch
+                  Start a conversation
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }}>
@@ -431,7 +431,7 @@ const AboutPage: React.FC = () => {
                   to="/services"
                   className="inline-block border-2 border-white/30 hover:border-secondary-400 text-white hover:text-secondary-300 font-bold py-4 px-10 rounded-xl text-lg transition-colors"
                 >
-                  Explore Services
+                  Explore services
                 </Link>
               </motion.div>
             </div>

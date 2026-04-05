@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { SERVICES } from "../constants";
+import PricingTiers from "../components/PricingTiers";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -55,7 +56,7 @@ const serviceDetails: Record<string, { features: string[]; highlight: string }> 
       "E-commerce capabilities with payment integration",
       "Ongoing maintenance and updates",
     ],
-    highlight: "We've built 50+ websites that load in under 2 seconds and convert visitors into customers.",
+    highlight: "We focus on speed, clarity, and action so the website helps more visitors become enquiries."
   },
   "App Development": {
     features: [
@@ -77,7 +78,7 @@ const serviceDetails: Record<string, { features: string[]; highlight: string }> 
       "Monthly analytics reports with actionable insights",
       "Competitor analysis and opportunity mapping",
     ],
-    highlight: "Our clients consistently achieve first-page Google rankings within 3-6 months.",
+    highlight: "We target search terms that matter to your business and build the site so Google can understand it clearly.",
   },
   "Content Creation": {
     features: [
@@ -99,29 +100,29 @@ const serviceDetails: Record<string, { features: string[]; highlight: string }> 
       "Monthly performance analytics",
       "Influencer collaboration coordination",
     ],
-    highlight: "We've grown accounts from 0 to 10,000+ followers with targeted, engaging content.",
+    highlight: "We create content systems that keep your brand visible and make it easier for people to remember you.",
   },
   "WhatsApp & Social Automation": {
     features: [
       "WhatsApp Business API integration",
-      "AI-powered auto-reply systems",
+      "Automated auto-reply systems",
       "Instagram DM automation and lead capture",
       "Chatbot flows for sales and support",
       "CRM integration for lead management",
       "Custom trigger-based messaging sequences",
     ],
-    highlight: "Automate 80% of customer inquiries while maintaining a personal, responsive brand voice.",
+    highlight: "Automation helps you handle common questions faster while keeping the conversation human.",
   },
   "AI Call Agents": {
     features: [
       "Custom AI voice agent development",
       "Natural language understanding and response",
-      "24/7 automated call handling",
+      "After-hours call handling support",
       "Appointment booking and inquiry management",
       "Call recording and transcript analysis",
       "Seamless human handoff when needed",
     ],
-    highlight: "AI agents that sound human, respond intelligently, and work around the clock.",
+    highlight: "Voice agents can answer routine questions and hand off serious leads when needed.",
   },
   "UI/UX Design": {
     features: [
@@ -132,7 +133,7 @@ const serviceDetails: Record<string, { features: string[]; highlight: string }> 
       "A/B testing and conversion rate optimization",
       "Handoff-ready Figma files for developers",
     ],
-    highlight: "Beautiful, intuitive interfaces designed to maximize engagement and drive conversions.",
+    highlight: "Interfaces that reduce friction, improve readability, and make the next step obvious.",
   },
 };
 
@@ -155,11 +156,11 @@ const ServicesPage: React.FC = () => {
               What We Offer
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Our{" "}
-              <span className="text-secondary-300">Digital Services</span>
+              Practical{" "}
+              <span className="text-secondary-300">Solutions</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              From strategy to execution — a complete suite of digital solutions designed to grow your business, automate your operations, and elevate your brand online.
+              From visibility to conversion, we build the systems that help your business look credible, stay responsive, and attract better enquiries.
             </p>
           </motion.div>
         </div>
@@ -176,15 +177,28 @@ const ServicesPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-              Everything You Need
+              What each service fixes
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Comprehensive Digital Services
+              Services shaped around customer friction
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Click on any service to explore what's included and how we can help your business thrive.
+              Click on any service to see the business problem it solves and the kind of outcome you can expect.
             </p>
           </motion.div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-10">
+            {[
+              { title: 'Slow response', text: 'Automations that keep leads moving when your team is busy.' },
+              { title: 'Unclear offer', text: 'Messaging that makes your service easy to understand quickly.' },
+              { title: 'Weak visibility', text: 'SEO and content support that helps the right people find you.' },
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm dark:border-slate-700 dark:bg-slate-800/70">
+                <div className="text-sm font-bold uppercase tracking-[0.2em] text-secondary-600 dark:text-secondary-400">{item.title}</div>
+                <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{item.text}</p>
+              </div>
+            ))}
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {SERVICES.map((service, index) => {
@@ -303,6 +317,9 @@ const ServicesPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Pricing Tiers */}
+      <PricingTiers />
+
       {/* Process */}
       <section className="py-20 md:py-28 bg-white dark:bg-slate-800/30">
         <div className="container mx-auto px-6">
@@ -364,7 +381,7 @@ const ServicesPage: React.FC = () => {
                 More Than a Service Provider — <span className="text-secondary-400">Your Digital Partner</span>
               </h2>
               <p className="text-primary-200/80 text-lg leading-relaxed mb-6">
-                We don't just execute tasks. We think strategically about your business, align our work with your goals, and measure success by your growth — not just project completion.
+                We do not just execute tasks. We look at the stage where customers lose interest, then design the experience so more of them move forward.
               </p>
               <div className="space-y-4">
                 {[
@@ -460,7 +477,7 @@ const ServicesPage: React.FC = () => {
                   to="/portfolio"
                   className="inline-block border-2 border-primary-900 dark:border-secondary-400 text-primary-900 dark:text-secondary-400 hover:bg-primary-900 hover:text-white dark:hover:bg-secondary-400 dark:hover:text-primary-950 font-bold py-4 px-10 rounded-xl text-lg transition-colors"
                 >
-                  View Our Work
+                  View Proof
                 </Link>
               </motion.div>
             </div>
