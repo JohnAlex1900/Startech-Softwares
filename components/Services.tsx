@@ -8,7 +8,7 @@ const cardVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' },
+    transition: { duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] as const },
   }),
 };
 
@@ -24,13 +24,13 @@ const Services: React.FC = () => {
           transition={{ duration: 0.55 }}
         >
           <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-            What we solve
+            Specific business problems
           </span>
           <h2 id="services-heading" className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-            Services that remove the friction between interest and enquiry
+            Pick what you need to scale your revenue
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-300">
-            Every service below is designed to solve a specific business bottleneck: weak trust, low visibility, slow response, or a confusing buying journey.
+            Each solution targets a specific revenue blocker. Pick what's holding your business back from getting more customers and making more money.
           </p>
         </motion.div>
 
@@ -70,13 +70,13 @@ const Services: React.FC = () => {
             to="/services"
             className="inline-flex items-center justify-center rounded-xl border-2 border-primary-900 px-7 py-3.5 font-bold text-primary-900 transition-colors hover:bg-primary-900 hover:text-white dark:border-secondary-400 dark:text-secondary-300 dark:hover:bg-secondary-400 dark:hover:text-primary-950"
           >
-            Explore the full service breakdown
+            See all solutions
           </Link>
           <Link
             to="/contact"
             className="inline-flex items-center justify-center rounded-xl bg-primary-900 px-7 py-3.5 font-bold text-white shadow-lg shadow-primary-900/15 transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
           >
-            Talk through your business challenge
+            Get your growth plan
           </Link>
         </motion.div>
       </div>

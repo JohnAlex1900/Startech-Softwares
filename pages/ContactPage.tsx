@@ -159,7 +159,7 @@ const ContactPage: React.FC = () => {
               <span className="text-secondary-300">best next step</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              If your business needs better enquiries, clearer messaging, or faster customer response, send us the details and we’ll help you choose the right starting point.
+              Start with your first month free. If your business needs better enquiries, clearer messaging, or faster customer response, send us the details and we will help you choose the right package and next step.
             </p>
           </motion.div>
         </div>

@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    eyebrow: 'Built for small businesses',
-    headline: 'Turn website visitors into real enquiries',
-    sub: 'We redesign your online presence so people understand your offer quickly, trust your brand faster, and know exactly how to contact you.',
+    eyebrow: 'Get more business, not just views',
+    headline: 'Attract walk-ins and calls from ready-to-buy customers',
+    sub: 'Your digital presence should work like a professional sales team—qualifying prospects, building trust, and converting visitors into revenue. We make that happen.',
   },
   {
-    eyebrow: 'Solve the bottlenecks',
-    headline: 'Reply faster, look sharper, and sell more consistently',
-    sub: 'From websites and content to WhatsApp automation and SEO, we remove the gaps that make interested customers go cold.',
+    eyebrow: 'Stop losing money at the door',
+    headline: 'Turn visibility into actual customer acquisition',
+    sub: 'When prospects find you online, they need to instantly understand what you offer, trust that you\'re credible, and know how to buy. Most businesses fail at one of these. We fix all three.',
   },
   {
-    eyebrow: 'Practical digital growth',
-    headline: 'A complete system for visibility, trust, and conversions',
-    sub: 'We combine design, marketing, and automation so your business feels active, credible, and easy to work with.',
+    eyebrow: 'Professional scaling for serious businesses',
+    headline: 'Grow revenue without growing your team',
+    sub: 'Automation, better marketing, and smarter systems let you handle more customers, respond faster, and close more deals—without hiring more people.',
   },
 ];
 
@@ -43,16 +43,16 @@ const IntegrateIcon: React.FC = () => (
 );
 
 const proofPoints = [
-  { value: '2-4 weeks', label: 'typical website turnaround', icon: ClockIcon },
-  { value: '24/7', label: 'automated enquiry support', icon: ZapIcon },
-  { value: '1 place', label: 'for design, content, and growth', icon: IntegrateIcon },
+  { value: '2-4 weeks', label: 'to your first revenue-focused system', icon: ClockIcon },
+  { value: '24/7', label: 'automatic customer engagement', icon: ZapIcon },
+  { value: 'Multi-channel', label: 'customer acquisition setup', icon: IntegrateIcon },
 ];
 
 const focusAreas = [
-  { text: 'Website redesigns', icon: '🌐' },
-  { text: 'Lead capture systems', icon: '🎯' },
-  { text: 'WhatsApp automation', icon: '💬' },
-  { text: 'SEO and content', icon: '📈' },
+  { text: 'Attract qualified prospects', icon: '🎯' },
+  { text: 'Convert faster and easier', icon: '⚡' },
+  { text: 'Get real walk-ins & calls', icon: '📞' },
+  { text: 'Increase revenue per customer', icon: '💰' },
 ];
 
 const Hero: React.FC = () => {
@@ -125,13 +125,13 @@ const Hero: React.FC = () => {
                 to="/contact"
                 className="inline-flex items-center justify-center rounded-xl bg-secondary-400 px-7 py-4 font-bold text-primary-950 shadow-lg shadow-cyan-500/20 transition-transform hover:-translate-y-0.5"
               >
-                Book a Discovery Call
+                Get Your Revenue Plan
               </Link>
               <a
                 href="#services"
                 className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 py-4 font-bold text-white backdrop-blur-sm transition-colors hover:border-secondary-300 hover:text-secondary-200"
               >
-                See the Solutions
+                See What You'll Get
               </a>
             </motion.div>
 

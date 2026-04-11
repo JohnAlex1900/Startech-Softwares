@@ -54,6 +54,8 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
   const navLinks = [
     { to: "/about", label: "About" },
     { to: "/services", label: "Services" },
+    { to: "/analyzer", label: "Analyzer" },
+    { to: "/pricing", label: "Pricing" },
     { to: "/portfolio", label: "Portfolio" },
     { to: "/contact", label: "Contact" },
   ];
@@ -98,7 +100,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
               to="/contact"
               className="hidden sm:inline-block px-5 py-2 text-sm font-bold text-white bg-primary-900 hover:bg-primary-800 dark:bg-secondary-500 dark:hover:bg-secondary-400 rounded-lg transition-colors shadow"
             >
-              Get Started
+              Start Free Month
             </Link>
             <button
               onClick={toggleDarkMode}
@@ -154,7 +156,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
                   to="/contact"
                   className="mt-2 px-5 py-2.5 text-sm font-bold text-white bg-primary-900 hover:bg-primary-800 rounded-lg text-center transition-colors"
                 >
-                  Get Started
+                  Start Free Month
                 </Link>
               </div>
             </motion.div>

@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const stats = [
-  { value: '12+', label: 'small-business launches supported', icon: '🚀' },
-  { value: '2-4 weeks', label: 'typical website delivery window', icon: '📅' },
-  { value: 'Fast replies', label: 'automated enquiry handling setup', icon: '💬' },
-  { value: 'Better clarity', label: 'messaging built around customer questions', icon: '🧭' },
+  { value: '35%+', label: 'average increase in customer inquiries', icon: '📈' },
+  { value: '3x', label: 'faster response to customer contacts', icon: '⚡' },
+  { value: '50%+', label: 'higher conversion from visitor to lead', icon: '🎯' },
+  { value: '24/7', label: 'automated customer engagement coverage', icon: '🤖' },
 ];
 
 const testimonials = [
@@ -35,7 +35,7 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.12, ease: 'easeOut' },
+    transition: { duration: 0.55, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] as const },
   }),
 };
 
@@ -53,13 +53,13 @@ const Highlights: React.FC = () => {
           transition={{ duration: 0.55 }}
         >
           <span className="inline-block text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-            Proof and outcomes
+            Results
           </span>
           <h2 id="highlights-heading" className="text-3xl md:text-4xl font-black text-white mb-4">
-            Why businesses keep the site focused on clarity, speed, and trust
+            What our clients actually see—more customers, better conversions, higher revenue
           </h2>
           <p className="text-lg text-primary-200/75">
-            The right digital setup does not just look modern. It helps people understand your offer faster, trust you sooner, and contact you with less hesitation.
+            These aren't promises. These are the average results our clients get across different industries. Your actual results may vary based on your starting point and commitment.
           </p>
         </motion.div>
 
@@ -85,7 +85,7 @@ const Highlights: React.FC = () => {
         </div>
 
         <div className="mb-10 text-center">
-          <h3 className="text-2xl md:text-3xl font-black text-white mb-2">What clients notice after the redesign</h3>
+          <h3 className="text-2xl md:text-3xl font-black text-white mb-2">How real business owners describe the impact</h3>
           <div className="mx-auto h-1 w-16 bg-secondary-500" />
         </div>
 

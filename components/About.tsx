@@ -7,22 +7,22 @@ const fadeUp = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.12, ease: 'easeOut' },
+    transition: { duration: 0.55, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] as const },
   }),
 };
 
 const problemCards = [
   {
-    title: 'Clients do not understand the offer',
-    desc: 'We rewrite the message so visitors can tell what you do, who you help, and why they should trust you.',
+    title: 'More qualified customers finding you',
+    desc: 'Your business becomes the obvious choice when prospects are searching. Better visibility + professional positioning = higher quality leads.',
   },
   {
-    title: 'Leads come in slowly',
-    desc: 'We improve the site structure, calls to action, and SEO signals that support more consistent enquiries.',
+    title: 'Higher conversion from first contact',
+    desc: 'Visitors understand exactly what you offer and trust you immediately. Clear messaging + trust signals = more customers saying yes.',
   },
   {
-    title: 'Replies take too long',
-    desc: 'We set up WhatsApp and social automation that keeps conversations moving even when you are busy.',
+    title: 'Revenue growth without hiring',
+    desc: 'Automation handles routine inquiries, lead capture, and follow-ups. Work smarter = handle more customers with your current team.',
   },
 ];
 
@@ -40,10 +40,10 @@ const About: React.FC = () => {
               variants={fadeUp}
             >
               <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-                Why this website exists
+                What changes for your business
               </span>
               <h2 id="about-heading" className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
-                Built to help small businesses turn attention into <span className="text-primary-900 dark:text-secondary-400">actual revenue</span>
+                You'll see more walk-ins, calls, and <span className="text-primary-900 dark:text-secondary-400">bottom-line revenue growth</span>
               </h2>
             </motion.div>
 
@@ -55,7 +55,7 @@ const About: React.FC = () => {
               custom={1}
               variants={fadeUp}
             >
-              Startech Softwares creates practical digital systems for businesses that need more than a pretty website. We focus on the moments where customers hesitate, leave, or delay, then design better answers around those moments.
+              We help small businesses become the obvious choice in their market. That means better positioning online, faster customer acquisition, and systems that turn prospects into paying customers—without you working harder.
             </motion.p>
 
             <motion.p
@@ -66,7 +66,7 @@ const About: React.FC = () => {
               custom={2}
               variants={fadeUp}
             >
-              That means clearer messaging, stronger trust signals, faster response systems, and marketing support that helps your business stay visible without becoming overwhelming to manage.
+              Most businesses fail at one thing: connecting qualified prospects to buying. We focus entirely on that gap—from making sure the right people find you, to making sure they say yes when they contact you.
             </motion.p>
 
             <motion.div
@@ -81,13 +81,13 @@ const About: React.FC = () => {
                 to="/services"
                 className="inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
               >
-                See how we help
+                What You'll Get
               </Link>
               <Link
                 to="/portfolio"
                 className="inline-flex items-center justify-center rounded-xl border-2 border-primary-900 px-6 py-3.5 font-bold text-primary-900 transition-colors hover:bg-primary-900 hover:text-white dark:border-secondary-400 dark:text-secondary-300 dark:hover:bg-secondary-400 dark:hover:text-primary-950"
               >
-                View proof of work
+                See Results
               </Link>
             </motion.div>
           </div>

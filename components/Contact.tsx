@@ -70,7 +70,7 @@ const Contact: React.FC = () => {
             Ready to replace guesswork with a clear digital plan?
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            If your business needs a cleaner website, better leads, or faster replies, we can map the first practical steps together.
+            Start with a free first month. We build your growth system first, then you continue on the service package that best fits your goals.
           </p>
         </motion.div>
 

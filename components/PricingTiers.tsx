@@ -42,7 +42,22 @@ const PricingTiers: React.FC = () => {
             The 3-tier value model
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-300">
-            Each package starts at a clear base price so you can choose confidently, understand the expected outcome, and invest where the return is strongest.
+            First month is free for new clients. After month one, you continue on the package you select if you are happy with the direction and fit.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="mx-auto mb-10 max-w-4xl rounded-2xl border border-secondary-200 bg-secondary-50 p-5 text-center dark:border-secondary-500/40 dark:bg-secondary-500/10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.45 }}
+        >
+          <p className="text-sm md:text-base font-semibold text-slate-900 dark:text-white">
+            30-day no-fee start: We build and launch your growth system in month one, then monthly billing begins on your selected package if you choose to continue.
+          </p>
+          <p className="mt-2 text-xs text-slate-600 dark:text-slate-300">
+            Performance depends on your market, offer, and implementation pace, so results will vary by business.
           </p>
         </motion.div>
 
@@ -87,7 +102,7 @@ const PricingTiers: React.FC = () => {
                 
                 <div className="mb-8">
                   <div className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                    Starting from
+                    Monthly after free month
                   </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-black text-slate-900 dark:text-white">
@@ -107,7 +122,7 @@ const PricingTiers: React.FC = () => {
                       : 'border-2 border-primary-900 dark:border-secondary-400 text-primary-900 dark:text-secondary-300 hover:bg-primary-900/5 dark:hover:bg-secondary-400/10'
                   }`}
                 >
-                  Discuss this package
+                  Start free for 30 days
                 </Link>
 
                 <div className="border-t border-slate-200 dark:border-slate-700 pt-8">

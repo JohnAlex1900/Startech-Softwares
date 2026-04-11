@@ -153,7 +153,7 @@ const ServicesPage: React.FC = () => {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <span className="inline-block text-secondary-400 font-bold text-sm uppercase tracking-widest mb-4">
-              What We Offer
+              Pick your growth lever
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
               Practical{" "}

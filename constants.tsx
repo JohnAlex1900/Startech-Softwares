@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
   {
     title: "Gift & Sons International",
     description:
-      "A polished corporate website for a real estate team, rebuilt to make property enquiries clearer and improve trust at first glance.",
+      "Real estate team needed clarity on their website. We rebuilt it to instantly communicate their service and value. Result: Higher-quality enquiries and faster property decision-making from prospects.",
     technologies: ["React", "Tailwind CSS", "Node.js", "Express"],
     imageUrl: "/assets/giftandsons.png",
     link: "https://giftandsonsinternational.com",
@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
   {
     title: "Sifabora Africa",
     description:
-      "A credibility-focused marketing presence for a reputation management brand, with stronger messaging and easier service discovery.",
+      "Reputation management business lacked professional credibility online. We created a credible presence with clearer value proposition and stronger brand positioning. Result: More trust from prospective clients and easier service sales.",
     technologies: ["API", "Firebase", "React", "Google Cloud"],
     imageUrl: "/assets/sifabora_2.png",
     link: "https://sifabora.africa",
@@ -77,49 +77,49 @@ export const SERVICES: Service[] = [
     icon: <WebDevIcon />,
     title: "Website Development",
     description:
-      "Modern websites that make your offer easy to understand, build trust quickly, and guide visitors toward contacting you.",
+      "Get a site that converts. Visitors understand what you offer, trust you immediately, and know exactly how to contact you—leading to more qualified enquiries.",
   },
   {
     icon: <AppDevIcon />,
     title: "App Development",
     description:
-      "Practical mobile apps for Android and iPhone that help you serve customers, accept requests, and manage workflows on the move.",
+      "Serve customers better and faster. Mobile apps let you accept orders, manage bookings, and provide 24/7 access—increasing sales and reducing manual work.",
   },
   {
     icon: <SEOIcon />,
     title: "SEO Management",
     description:
-      "Search strategy and technical improvements that help local customers find you when they are actively looking for your service.",
+      "Get found by ready-to-buy customers. Rank for searches where prospects are actively looking, so they discover you instead of your competitors.",
   },
   {
     icon: <ContentIcon />,
     title: "Content Creation",
     description:
-      "Clear website copy, social posts, and simple content systems that answer customer questions and support sales.",
+      "Answer customer questions before they call. Strategic content builds trust, reduces objections, and positions you as the obvious choice.",
   },
   {
     icon: <SocialMediaIcon />,
     title: "Social Media Management",
     description:
-      "Content planning, posting, and engagement support that keeps your brand visible without draining your time.",
+      "Stay top-of-mind without extra effort. Consistent visibility on social platforms builds brand authority and keeps customers engaged between sales cycles.",
   },
   {
     icon: <WhatsAppIcon />,
     title: "WhatsApp & Social Automation",
     description:
-      "Automated replies and lead capture flows for WhatsApp and social platforms, so enquiries are never left waiting.",
+      "Never miss a lead or inquiry. Automated replies capture customers 24/7, nurture them while you sleep, and deliver hot leads straight to your team.",
   },
   {
     icon: <AICallIcon />,
     title: "AI Call Agents",
     description:
-      "Voice assistants that answer routine questions, collect details, and route serious leads to your team.",
+      "Handle more customers without hiring more people. Voice assistants qualify leads, collect details, and route serious prospects to your team instantly.",
   },
   {
     icon: <UIDesignIcon />,
     title: "UI/UX Design",
     description:
-      "Clean user experiences that reduce friction, make information easier to scan, and support better conversion.",
+      "Reduce friction in every customer touchpoint. Better design means faster decision-making, fewer abandoned carts, and higher conversion rates across the board.",
   },
 ];
 
@@ -184,7 +184,7 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: "Foundation",
     price: "KES 12,000",
-    period: "/ month",
+    period: "/ month (after free month)",
     bestFor: "Businesses starting or with low online presence",
     includes: [
       "Social media presence setup & optimization",
@@ -199,7 +199,7 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: "Growth",
     price: "KES 20,000",
-    period: "/ month",
+    period: "/ month (after free month)",
     bestFor: "Businesses ready to increase customers and inquiries",
     includes: [
       "Everything in Foundation PLUS",
@@ -217,7 +217,7 @@ export const PRICING_TIERS: PricingTier[] = [
   {
     name: "Scale",
     price: "KES 35,000",
-    period: "/ month",
+    period: "/ month (after free month)",
     bestFor: "Businesses serious about scaling and dominating locally",
     includes: [
       "Everything in Growth PLUS",

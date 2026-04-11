@@ -9,6 +9,8 @@ const Footer = () => {
   const pageLinks = [
     { to: "/about", label: "About" },
     { to: "/services", label: "Services" },
+    { to: "/analyzer", label: "Analyzer" },
+    { to: "/pricing", label: "Pricing" },
     { to: "/portfolio", label: "Portfolio" },
     { to: "/contact", label: "Contact" },
   ];
@@ -31,7 +33,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-primary-300/50 text-xs mt-1">
-              Websites, automation, and content for growing businesses
+              Professional digital solutions that increase revenue
             </p>
           </div>
 
