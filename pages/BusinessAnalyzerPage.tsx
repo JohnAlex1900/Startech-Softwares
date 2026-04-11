@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -56,17 +56,51 @@ const normalizeUrl = (value: string) => {
     : `https://${trimmed}`;
 };
 
+const websiteAnalysisStages = [
+  "Checking website accessibility and structure...",
+  "Collecting interaction and engagement signals...",
+  "Scoring conversion readiness and trust signals...",
+  "Preparing your professional summary report...",
+];
+
+const noWebsiteStages = [
+  "Evaluating digital readiness for your business...",
+  "Mapping customer trust and discovery gaps...",
+  "Building a high-impact website launch priority list...",
+  "Preparing your recommended setup plan...",
+];
+
+const socialAnalysisStages = [
+  "Scanning social profile activity patterns...",
+  "Measuring engagement and consistency signals...",
+  "Evaluating content-to-conversion pathway...",
+  "Preparing your platform-specific action report...",
+];
+
+const noSocialStages = [
+  "Evaluating audience visibility opportunity...",
+  "Assessing trust-building channel gaps...",
+  "Creating foundational social setup priorities...",
+  "Preparing your social launch plan...",
+];
+
 const BusinessAnalyzerPage: React.FC = () => {
   const [mode, setMode] = useState<AnalyzerMode>("website");
 
   const [hasWebsite, setHasWebsite] = useState(true);
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [websiteSubmitted, setWebsiteSubmitted] = useState(false);
+  const [websiteAnalyzing, setWebsiteAnalyzing] = useState(false);
+  const [websiteStage, setWebsiteStage] = useState(0);
 
   const [hasSocial, setHasSocial] = useState(true);
   const [socialPlatform, setSocialPlatform] = useState<SocialPlatform>("Instagram");
   const [socialHandle, setSocialHandle] = useState("");
   const [socialSubmitted, setSocialSubmitted] = useState(false);
+  const [socialAnalyzing, setSocialAnalyzing] = useState(false);
+  const [socialStage, setSocialStage] = useState(0);
+
+  const timerIdsRef = useRef<number[]>([]);
 
   const websiteReport = useMemo(() => {
     const normalized = normalizeUrl(websiteUrl);
@@ -114,15 +148,64 @@ const BusinessAnalyzerPage: React.FC = () => {
     };
   }, [socialPlatform, socialHandle]);
 
+  useEffect(() => {
+    return () => {
+      timerIdsRef.current.forEach((timerId) => window.clearTimeout(timerId));
+    };
+  }, []);
+
+  const trackTimeout = (callback: () => void, delay: number) => {
+    const timerId = window.setTimeout(callback, delay);
+    timerIdsRef.current.push(timerId);
+  };
+
   const runWebsiteAnalysis = (e: React.FormEvent) => {
     e.preventDefault();
-    setWebsiteSubmitted(true);
+    if (hasWebsite && !normalizeUrl(websiteUrl)) {
+      setWebsiteSubmitted(true);
+      setWebsiteAnalyzing(false);
+      return;
+    }
+
+    setWebsiteSubmitted(false);
+    setWebsiteAnalyzing(true);
+    setWebsiteStage(0);
+
+    trackTimeout(() => setWebsiteStage(1), 700);
+    trackTimeout(() => setWebsiteStage(2), 1400);
+    trackTimeout(() => setWebsiteStage(3), 2100);
+    trackTimeout(() => {
+      setWebsiteAnalyzing(false);
+      setWebsiteSubmitted(true);
+    }, 2800);
   };
 
   const runSocialAnalysis = (e: React.FormEvent) => {
     e.preventDefault();
-    setSocialSubmitted(true);
+    if (hasSocial && !socialHandle.trim().replace(/^@/, "")) {
+      setSocialSubmitted(true);
+      setSocialAnalyzing(false);
+      return;
+    }
+
+    setSocialSubmitted(false);
+    setSocialAnalyzing(true);
+    setSocialStage(0);
+
+    trackTimeout(() => setSocialStage(1), 700);
+    trackTimeout(() => setSocialStage(2), 1400);
+    trackTimeout(() => setSocialStage(3), 2100);
+    trackTimeout(() => {
+      setSocialAnalyzing(false);
+      setSocialSubmitted(true);
+    }, 2800);
   };
+
+  const activeWebsiteStages = hasWebsite ? websiteAnalysisStages : noWebsiteStages;
+  const activeSocialStages = hasSocial ? socialAnalysisStages : noSocialStages;
+  const isAnyAnalysisRunning = websiteAnalyzing || socialAnalyzing;
+  const websiteProgress = Math.round(((websiteStage + 1) / activeWebsiteStages.length) * 100);
+  const socialProgress = Math.round(((socialStage + 1) / activeSocialStages.length) * 100);
 
   return (
     <div className="min-h-screen">
@@ -156,22 +239,24 @@ const BusinessAnalyzerPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setMode("website")}
+              disabled={isAnyAnalysisRunning}
               className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
                 mode === "website"
                   ? "bg-primary-900 text-white dark:bg-secondary-500 dark:text-primary-950"
                   : "text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-800"
-              }`}
+              } ${isAnyAnalysisRunning ? "cursor-not-allowed opacity-70" : ""}`}
             >
               Website Analysis
             </button>
             <button
               type="button"
               onClick={() => setMode("social")}
+              disabled={isAnyAnalysisRunning}
               className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
                 mode === "social"
                   ? "bg-primary-900 text-white dark:bg-secondary-500 dark:text-primary-950"
                   : "text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-800"
-              }`}
+              } ${isAnyAnalysisRunning ? "cursor-not-allowed opacity-70" : ""}`}
             >
               Social Media Analysis
             </button>
@@ -202,6 +287,7 @@ const BusinessAnalyzerPage: React.FC = () => {
                           setHasWebsite(!e.target.checked);
                           if (e.target.checked) setWebsiteUrl("");
                         }}
+                        disabled={websiteAnalyzing}
                         className="h-4 w-4"
                       />
                       <span className="text-slate-700 dark:text-slate-200">I do not have a website yet</span>
@@ -217,22 +303,44 @@ const BusinessAnalyzerPage: React.FC = () => {
                         placeholder="example.com"
                         value={websiteUrl}
                         onChange={(e) => setWebsiteUrl(e.target.value)}
-                        disabled={!hasWebsite}
+                        disabled={!hasWebsite || websiteAnalyzing}
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
                       />
                     </div>
 
                     <button
                       type="submit"
+                      disabled={websiteAnalyzing}
                       className="inline-flex w-full items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
                     >
-                      Analyze Website
+                      {websiteAnalyzing ? "Analyzing..." : "Analyze Website"}
                     </button>
                   </form>
                 </article>
 
                 <article className="rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/40">
-                  {!websiteSubmitted ? (
+                  {websiteAnalyzing ? (
+                    <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex h-full flex-col justify-center">
+                      <div className="mb-5 flex items-center gap-3">
+                        <span className="inline-flex h-8 w-8 animate-spin rounded-full border-2 border-secondary-500 border-t-transparent" aria-hidden="true" />
+                        <p className="flex-1 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                          {activeWebsiteStages[websiteStage]}
+                        </p>
+                        <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                          {websiteProgress}%
+                        </span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                        <div
+                          className="h-full rounded-full bg-secondary-500 transition-all duration-500"
+                          style={{ width: `${websiteProgress}%` }}
+                        />
+                      </div>
+                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                        Building your professional report...
+                      </p>
+                    </motion.div>
+                  ) : !websiteSubmitted ? (
                     <div className="flex h-full items-center justify-center text-center">
                       <p className="max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
                         Your report will appear here with a visibility snapshot, engagement signals, and priority actions to improve conversions.
@@ -336,6 +444,7 @@ const BusinessAnalyzerPage: React.FC = () => {
                           setHasSocial(!e.target.checked);
                           if (e.target.checked) setSocialHandle("");
                         }}
+                        disabled={socialAnalyzing}
                         className="h-4 w-4"
                       />
                       <span className="text-slate-700 dark:text-slate-200">I do not have active business social media accounts</span>
@@ -349,7 +458,7 @@ const BusinessAnalyzerPage: React.FC = () => {
                         id="platform"
                         value={socialPlatform}
                         onChange={(e) => setSocialPlatform(e.target.value as SocialPlatform)}
-                        disabled={!hasSocial}
+                        disabled={!hasSocial || socialAnalyzing}
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
                       >
                         <option>Instagram</option>
@@ -370,22 +479,44 @@ const BusinessAnalyzerPage: React.FC = () => {
                         placeholder="@yourbusiness"
                         value={socialHandle}
                         onChange={(e) => setSocialHandle(e.target.value)}
-                        disabled={!hasSocial}
+                        disabled={!hasSocial || socialAnalyzing}
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
                       />
                     </div>
 
                     <button
                       type="submit"
+                      disabled={socialAnalyzing}
                       className="inline-flex w-full items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
                     >
-                      Analyze Social Performance
+                      {socialAnalyzing ? "Analyzing..." : "Analyze Social Performance"}
                     </button>
                   </form>
                 </article>
 
                 <article className="rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/40">
-                  {!socialSubmitted ? (
+                  {socialAnalyzing ? (
+                    <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex h-full flex-col justify-center">
+                      <div className="mb-5 flex items-center gap-3">
+                        <span className="inline-flex h-8 w-8 animate-spin rounded-full border-2 border-secondary-500 border-t-transparent" aria-hidden="true" />
+                        <p className="flex-1 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                          {activeSocialStages[socialStage]}
+                        </p>
+                        <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                          {socialProgress}%
+                        </span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                        <div
+                          className="h-full rounded-full bg-secondary-500 transition-all duration-500"
+                          style={{ width: `${socialProgress}%` }}
+                        />
+                      </div>
+                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                        Building your professional report...
+                      </p>
+                    </motion.div>
+                  ) : !socialSubmitted ? (
                     <div className="flex h-full items-center justify-center text-center">
                       <p className="max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
                         Your social report will appear here with engagement signal scores and conversion-focused platform recommendations.
