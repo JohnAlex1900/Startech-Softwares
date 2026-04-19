@@ -31,6 +31,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.middleware("http")
+async def rewrite_api_prefix(request: Request, call_next):
+    """Allow both /api/* and /* route formats for split deployments."""
+    scope_path = request.scope.get("path", "")
+    if scope_path.startswith("/api/"):
+        request.scope["path"] = scope_path[4:]
+    elif scope_path == "/api":
+        request.scope["path"] = "/"
+
+    return await call_next(request)
+
 _ADMIN_AUTH_WINDOW_SECONDS = int(os.getenv("ADMIN_AUTH_WINDOW_SECONDS", "600"))
 _ADMIN_AUTH_MAX_FAILURES = int(os.getenv("ADMIN_AUTH_MAX_FAILURES", "6"))
 _ADMIN_AUTH_LOCK_SECONDS = int(os.getenv("ADMIN_AUTH_LOCK_SECONDS", "900"))
