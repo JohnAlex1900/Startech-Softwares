@@ -45,7 +45,7 @@ const initialForm: AnalyzeRequest = {
 
 const progressStages = [
   "Collecting your business details...",
-  "Running AI-powered digital presence checks...",
+  "Running AI-powered digital presence checks....",
   "Scoring key growth and conversion gaps...",
   "Preparing your professional business audit report...",
 ];
