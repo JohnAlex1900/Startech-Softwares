@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 
 const heroSlides = [
   {
-    eyebrow: 'Get more business, not just views',
-    headline: 'Attract walk-ins and calls from ready-to-buy customers',
-    sub: 'Your digital presence should work like a professional sales team—qualifying prospects, building trust, and converting visitors into revenue. We make that happen.',
+    eyebrow: 'Value-focused digital growth',
+    headline: 'Turn attention into enquiries, calls, and clients',
+    sub: 'Your online presence should guide people from first impression to first contact. We design the path so trust is clear and action is easy.',
   },
   {
-    eyebrow: 'Stop losing money at the door',
-    headline: 'Turn visibility into actual customer acquisition',
-    sub: 'When prospects find you online, they need to instantly understand what you offer, trust that you\'re credible, and know how to buy. Most businesses fail at one of these. We fix all three.',
+    eyebrow: 'From friction to flow',
+    headline: 'Make your services easier to understand and easier to buy',
+    sub: 'Most businesses lose prospects because the offer is unclear or the next step feels hard. We simplify both.',
   },
   {
-    eyebrow: 'Professional scaling for serious businesses',
-    headline: 'Grow revenue without growing your team',
-    sub: 'Automation, better marketing, and smarter systems let you handle more customers, respond faster, and close more deals—without hiring more people.',
+    eyebrow: 'Built for long-term growth',
+    headline: 'Scale with systems that keep working after launch',
+    sub: 'With clearer messaging, better response flows, and smart automation, your digital presence becomes a dependable growth engine.',
   },
 ];
 
@@ -49,10 +49,31 @@ const proofPoints = [
 ];
 
 const focusAreas = [
-  { text: 'Attract qualified prospects', icon: '🎯' },
-  { text: 'Convert faster and easier', icon: '⚡' },
-  { text: 'Get real walk-ins & calls', icon: '📞' },
-  { text: 'Increase revenue per customer', icon: '💰' },
+  { text: 'Clarify the offer', icon: '🎯' },
+  { text: 'Build trust faster', icon: '🛡️' },
+  { text: 'Reduce response friction', icon: '⚡' },
+  { text: 'Convert more enquiries', icon: '📞' },
+];
+
+const storySteps = [
+  {
+    step: 'Before',
+    title: 'Traffic without traction',
+    detail: 'People arrive, but the message is not clear enough to guide them forward.',
+    icon: '🧩',
+  },
+  {
+    step: 'During',
+    title: 'We rebuild the path',
+    detail: 'We improve clarity, trust, and the response flow so the next step feels natural.',
+    icon: '⚙️',
+  },
+  {
+    step: 'After',
+    title: 'A cleaner growth engine',
+    detail: 'Your digital presence becomes easier to trust, easier to navigate, and easier to convert from.',
+    icon: '🚀',
+  },
 ];
 
 const Hero: React.FC = () => {
@@ -125,13 +146,13 @@ const Hero: React.FC = () => {
                 to="/contact"
                 className="inline-flex items-center justify-center rounded-xl bg-secondary-400 px-7 py-4 font-bold text-primary-950 shadow-lg shadow-cyan-500/20 transition-transform hover:-translate-y-0.5"
               >
-                Get Your Revenue Plan
+                Start Your Growth Story
               </Link>
               <a
                 href="#services"
                 className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 py-4 font-bold text-white backdrop-blur-sm transition-colors hover:border-secondary-300 hover:text-secondary-200"
               >
-                See What You'll Get
+                See the Service Story
               </a>
             </motion.div>
 
@@ -160,6 +181,25 @@ const Hero: React.FC = () => {
                 );
               })}
             </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {storySteps.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  className="rounded-2xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.25 + index * 0.08 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="text-[11px] font-black uppercase tracking-[0.25em] text-secondary-300">{item.step}</div>
+                    <div className="text-xl" aria-hidden="true">{item.icon}</div>
+                  </div>
+                  <h3 className="mt-2 text-xl font-black text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-200/80">{item.detail}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           <motion.aside
@@ -172,10 +212,10 @@ const Hero: React.FC = () => {
               <div className="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-white/12 to-white/5 p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary-300">What your clients need</div>
-                    <div className="mt-2 text-xl font-bold text-white">A clear next step</div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary-300">Service story</div>
+                    <div className="mt-2 text-xl font-bold text-white">Clearer path, stronger response</div>
                   </div>
-                  <div className="rounded-full bg-secondary-400/15 px-3 py-1 text-xs font-semibold text-secondary-200">Live support</div>
+                  <div className="rounded-full bg-secondary-400/15 px-3 py-1 text-xs font-semibold text-secondary-200">Visual narrative</div>
                 </div>
 
                 <div className="mt-6 space-y-3">
@@ -203,7 +243,7 @@ const Hero: React.FC = () => {
                 <div className="mt-6 rounded-2xl bg-primary-900/80 p-5">
                   <div className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary-300">Typical outcome</div>
                   <p className="mt-2 text-base leading-7 text-slate-100">
-                    A cleaner site, quicker customer response, and a more confident first impression for people who discover you on social media.
+                    A cleaner site, a stronger first impression, and a more confident path from discovery to enquiry.
                   </p>
                 </div>
               </div>

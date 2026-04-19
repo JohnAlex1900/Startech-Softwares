@@ -41,7 +41,7 @@ const contactMethods = [
     label: "Email Us",
     value: "johnirungu977@gmail.com",
     href: "mailto:johnirungu977@gmail.com",
-    desc: "Best for detailed project briefs",
+    desc: "Best for detailed project briefs and context",
   },
   {
     icon: (
@@ -63,7 +63,7 @@ const contactMethods = [
     label: "WhatsApp",
     value: "+254 711 632 577",
     href: "https://wa.me/254711632577",
-    desc: "Best for fast follow-up questions",
+    desc: "Best for fast follow-up and quick direction",
   },
   {
     icon: (
@@ -77,6 +77,36 @@ const contactMethods = [
     href: "https://maps.google.com/?q=Nairobi,Kenya",
     desc: "Serving clients across Kenya and beyond",
   },
+];
+
+const contactStory = [
+  {
+    title: "Share",
+    subtitle: "Tell us what is not working",
+    text: "Send your current challenge, project goal, or growth bottleneck so we can understand the real problem first.",
+    tone: "from-rose-500/20 to-rose-100/5",
+    icon: "1",
+  },
+  {
+    title: "Align",
+    subtitle: "We map the best next step",
+    text: "We review the context and recommend the most practical service path based on your stage and goals.",
+    tone: "from-amber-500/20 to-amber-100/5",
+    icon: "2",
+  },
+  {
+    title: "Move",
+    subtitle: "You get a clear direction",
+    text: "You leave with a more confident next step, faster response, and a clearer route into working together.",
+    tone: "from-emerald-500/20 to-emerald-100/5",
+    icon: "3",
+  },
+];
+
+const responseSignals = [
+  { label: "First response", value: "Within 2 hours" },
+  { label: "Best channel", value: "WhatsApp or email" },
+  { label: "Typical outcome", value: "Clear next step" },
 ];
 
 const ContactPage: React.FC = () => {
@@ -142,7 +172,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative py-28 md:py-36 bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 overflow-hidden">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-950 via-primary-900 to-slate-900 py-20 sm:py-24 md:py-36">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(6,182,212,0.15),transparent)]" />
         <div className="container mx-auto px-6 relative z-10 text-center">
@@ -165,6 +195,33 @@ const ContactPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Story strip */}
+      <section className="relative overflow-hidden bg-slate-100 py-10 md:py-14 dark:bg-slate-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(6,182,212,0.06),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.05),transparent_26%)] pointer-events-none" />
+        <div className="container mx-auto px-6">
+          <div className="grid gap-4 md:grid-cols-3">
+            {contactStory.map((item, i) => (
+              <motion.div
+                key={item.title}
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                className={`rounded-2xl border border-slate-200/80 bg-gradient-to-br ${item.tone} p-6 dark:border-slate-700`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-black uppercase tracking-[0.2em] text-secondary-700 dark:text-secondary-300">{item.title}</div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-sm font-black text-slate-900 dark:bg-slate-900 dark:text-white">{item.icon}</div>
+                </div>
+                <h3 className="mt-3 text-2xl font-black text-slate-900 dark:text-white">{item.subtitle}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300">{item.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact Methods */}
       <section className="py-12 bg-white dark:bg-slate-800/30 border-b border-slate-100 dark:border-slate-700">
         <div className="container mx-auto px-6">
@@ -181,7 +238,7 @@ const ContactPage: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-60px" }}
                 whileHover={{ y: -4, scale: 1.02 }}
-                className="flex flex-col items-center gap-3 p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-secondary-400/50 hover:shadow-lg transition-all text-center group"
+                className="flex flex-col items-center gap-3 p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-secondary-400/50 hover:shadow-lg transition-all text-center group"
               >
                 <div className="w-12 h-12 rounded-xl bg-primary-900 dark:bg-primary-900/60 text-secondary-400 flex items-center justify-center group-hover:bg-primary-800 transition-colors">
                   {method.icon}
@@ -198,7 +255,7 @@ const ContactPage: React.FC = () => {
       </section>
 
       {/* Form + Map */}
-      <section className="py-20 md:py-28 bg-slate-50 dark:bg-slate-900">
+      <section className="py-16 md:py-28 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
             {/* Form */}
@@ -209,11 +266,42 @@ const ContactPage: React.FC = () => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7 }}
             >
-              <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-10 shadow-xl border border-slate-100 dark:border-slate-700">
-                <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Tell us what is not working</h2>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">
-                  Fill in the form below and we’ll respond with a practical next step within 2 business hours.
-                </p>
+              <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 md:p-10 shadow-xl border border-slate-100 dark:border-slate-700">
+                <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">Tell us the story behind your need</h2>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mb-5">
+                      Share the context, and we’ll respond with a practical next step within 2 business hours.
+                    </p>
+
+                    <div className="grid gap-3 sm:grid-cols-3 mb-6">
+                      {responseSignals.map((signal) => (
+                        <div key={signal.label} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/50">
+                          <div className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">{signal.label}</div>
+                          <div className="mt-1 text-sm font-bold text-slate-900 dark:text-white">{signal.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-primary-950 to-slate-900 p-4 sm:p-5 text-white shadow-lg dark:border-slate-700">
+                    <div className="text-xs font-black uppercase tracking-[0.22em] text-secondary-300">What happens next</div>
+                    <div className="mt-3 space-y-3 sm:mt-4">
+                      {[
+                        "We review your message and the service you need.",
+                        "We suggest the most practical next step for your stage.",
+                        "We reply with a clear direction, not vague filler.",
+                      ].map((item, index) => (
+                        <div key={item} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
+                          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary-400/20 text-[11px] font-black text-secondary-300">
+                            {index + 1}
+                          </div>
+                          <p className="text-sm leading-6 text-slate-100/80">{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
 
                 {submitted ? (
                   <motion.div
@@ -400,7 +488,7 @@ const ContactPage: React.FC = () => {
               transition={{ duration: 0.7 }}
             >
               {/* Quick Actions */}
-              <div className="bg-primary-950 rounded-3xl p-7">
+              <div className="bg-primary-950 rounded-3xl p-6 sm:p-7">
                 <h3 className="text-white font-black text-lg mb-4">Prefer a faster option?</h3>
                 <div className="space-y-3">
                   <a
@@ -427,8 +515,8 @@ const ContactPage: React.FC = () => {
               </div>
 
               {/* Office Info */}
-              <div className="bg-white dark:bg-slate-800 rounded-3xl p-7 border border-slate-100 dark:border-slate-700">
-                <h3 className="text-slate-900 dark:text-white font-black text-lg mb-4">Office Information</h3>
+              <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700">
+                <h3 className="text-slate-900 dark:text-white font-black text-lg mb-4">Response Promise</h3>
                 <div className="space-y-4">
                   <div className="flex gap-3 items-start">
                     <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-secondary-500/10 flex items-center justify-center">
@@ -509,13 +597,13 @@ const ContactPage: React.FC = () => {
               </div>
 
               {/* FAQ teaser */}
-              <div className="bg-secondary-500/10 dark:bg-secondary-500/5 border border-secondary-500/20 rounded-3xl p-7">
+              <div className="bg-secondary-500/10 dark:bg-secondary-500/5 border border-secondary-500/20 rounded-3xl p-6 sm:p-7">
                 <h3 className="text-slate-900 dark:text-white font-black text-base mb-3">Frequently Asked</h3>
                 <div className="space-y-3">
                   {[
                     { q: "How long does a website take?", a: "Typically 2–4 weeks depending on complexity." },
-                    { q: "Do you offer payment plans?", a: "Yes, flexible payment options are available." },
-                    { q: "What's your revision policy?", a: "We offer unlimited revisions until you're satisfied." },
+                    { q: "Can you help me choose the right service?", a: "Yes, we’ll recommend the best path based on your goals." },
+                    { q: "What's your revision policy?", a: "We refine the work until the direction is clear and aligned." },
                   ].map((faq, i) => (
                     <div key={i} className="text-sm">
                       <p className="font-semibold text-slate-800 dark:text-slate-200">{faq.q}</p>

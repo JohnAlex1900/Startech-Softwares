@@ -95,6 +95,27 @@ const testimonials = [
 
 const categories: FilterCategory[] = ["All", "Websites", "Social Media", "Automation", "Branding"];
 
+const impactStory = [
+  {
+    title: "Before",
+    description: "Clients have services people need, but their online experience feels fragmented or outdated.",
+    tone: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
+    icon: "📉",
+  },
+  {
+    title: "What We Built",
+    description: "We redesign visibility, trust signals, and enquiry paths so prospects move from interest to action faster.",
+    tone: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+    icon: "🧠",
+  },
+  {
+    title: "Business Outcome",
+    description: "Teams get better leads, cleaner handoff, and a more credible brand presence that supports long-term growth.",
+    tone: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+    icon: "📊",
+  },
+];
+
 const PlaceholderImage: React.FC<{ title: string; type: string }> = ({ title, type }) => {
   const icons: Record<string, string> = {
     Website: "🌐",
@@ -170,6 +191,32 @@ const PortfolioPage: React.FC = () => {
       </section>
 
       {/* Portfolio Gallery */}
+      <section className="py-14 bg-white dark:bg-slate-900">
+        <div className="container mx-auto px-6">
+          <div className="grid gap-4 md:grid-cols-3">
+            {impactStory.map((item, i) => (
+              <motion.div
+                key={item.title}
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+                className="rounded-2xl border border-slate-200 p-5 dark:border-slate-700"
+              >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black uppercase tracking-[0.2em] ${item.tone}`}>
+                      {item.title}
+                    </span>
+                    <div className="text-lg" aria-hidden="true">{item.icon}</div>
+                  </div>
+                <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 md:py-28 bg-slate-50 dark:bg-slate-900">
         <div className="container mx-auto px-6">
           <motion.div

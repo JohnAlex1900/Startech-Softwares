@@ -1,616 +1,742 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-type AnalyzerMode = "website" | "social";
-type SocialPlatform = "Instagram" | "Facebook" | "TikTok" | "LinkedIn" | "X";
+type InputType = "website" | "instagram";
+type ActionType = "standard" | "advanced";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+type AnalyzeRequest = {
+  name: string;
+  phone: string;
+  business_name: string;
+  input_type: InputType;
+  input_value: string;
 };
 
-const socialTips: Record<SocialPlatform, string[]> = {
-  Instagram: [
-    "Use 3-5 content pillars and rotate them weekly for consistency.",
-    "Add stronger CTA hooks in Reels captions to drive profile clicks.",
-    "Pin your best conversion post with offer + WhatsApp contact.",
-  ],
-  Facebook: [
-    "Post customer proof and before/after outcomes at least twice weekly.",
-    "Use lead-focused headlines with location keywords for local reach.",
-    "Route comments and inbox questions into one fast reply workflow.",
-  ],
-  TikTok: [
-    "Lead with a 2-second hook that targets a specific customer pain.",
-    "Use short educational clips with one clear action per video.",
-    "Create a profile CTA path from video to WhatsApp or booking page.",
-  ],
-  LinkedIn: [
-    "Publish practical problem/solution posts with clear business outcomes.",
-    "Turn case studies into short carousels and attach a contact CTA.",
-    "Optimize profile headline for offer clarity and target audience.",
-  ],
-  X: [
-    "Use concise value threads that solve one customer challenge each.",
-    "Post with a repeatable cadence and clear call-to-conversation CTA.",
-    "Repurpose top-performing posts into lead magnets or service pages.",
-  ],
+type AnalysisResponse = {
+  lead: {
+    id: string;
+    name: string;
+    phone: string;
+    business_name: string;
+    input_type: InputType;
+    input_value: string;
+    timestamp: string;
+  };
+  analysis: {
+    input_type: InputType;
+    input_value: string;
+    score: number;
+    problems: string[];
+    opportunities: string[];
+    recommendations: string[];
+  };
+  report_text: string;
+  cta_message: string;
+  urgency_message: string;
 };
 
-const hashScore = (input: string, min: number, max: number) => {
-  let hash = 0;
-  for (let i = 0; i < input.length; i += 1) {
-    hash = (hash << 5) - hash + input.charCodeAt(i);
-    hash |= 0;
+const initialForm: AnalyzeRequest = {
+  name: "",
+  phone: "",
+  business_name: "",
+  input_type: "website",
+  input_value: "",
+};
+
+const progressStages = [
+  "Collecting your business details...",
+  "Running AI-powered digital presence checks...",
+  "Scoring key growth and conversion gaps...",
+  "Preparing your professional business audit report...",
+];
+
+const analyzerStory = [
+  {
+    title: "You Share",
+    description: "Add your business details and website or Instagram profile in under one minute.",
+    chip: "Input",
+  },
+  {
+    title: "We Diagnose",
+    description: "We identify trust gaps, conversion blockers, and growth opportunities across your digital presence.",
+    chip: "Analysis",
+  },
+  {
+    title: "You Grow",
+    description: "Receive a practical roadmap and discuss implementation directly on WhatsApp.",
+    chip: "Action",
+  },
+];
+
+const proofSignals = [
+  { value: "< 60 sec", label: "Average completion" },
+  { value: "3 layers", label: "Problems, opportunities, recommendations" },
+  { value: "Instant", label: "WhatsApp follow-up path" },
+];
+
+const mockInsights = [
+  { label: "Trust clarity", value: 72, tone: "bg-emerald-500" },
+  { label: "Offer visibility", value: 58, tone: "bg-amber-500" },
+  { label: "Conversion path", value: 46, tone: "bg-rose-500" },
+];
+
+const mockFixes = [
+  {
+    title: "Homepage message tightening",
+    detail: "Clarify your offer in the first 5 seconds so prospects understand your value immediately.",
+  },
+  {
+    title: "Stronger contact pathway",
+    detail: "Reduce friction by placing one clear action path from every major section to WhatsApp.",
+  },
+  {
+    title: "Trust signal layering",
+    detail: "Add proof snapshots and service outcomes close to key decision points.",
+  },
+];
+
+const resultCardsContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const resultCardItem = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
+const scoreBandMeta = (score: number) => {
+  if (score >= 8) {
+    return {
+      label: "Strong Foundation",
+      description: "Your presence is performing well. Focus on scaling and compounding wins.",
+      ring: "rgb(16 185 129)",
+      badge: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300",
+    };
   }
-  const normalized = Math.abs(hash % 1000) / 1000;
-  return Math.round(min + normalized * (max - min));
+
+  if (score >= 5) {
+    return {
+      label: "Growth Opportunity",
+      description: "You have momentum, but key improvements can unlock better conversion.",
+      ring: "rgb(245 158 11)",
+      badge: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300",
+    };
+  }
+
+  return {
+    label: "Urgent Attention",
+    description: "Major trust and conversion gaps are limiting your customer acquisition.",
+    ring: "rgb(239 68 68)",
+    badge: "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300",
+  };
 };
 
-const normalizeUrl = (value: string) => {
-  const trimmed = value.trim();
-  if (!trimmed) return "";
-  return trimmed.startsWith("http://") || trimmed.startsWith("https://")
-    ? trimmed
-    : `https://${trimmed}`;
+const whatsappNumber = "254711632577";
+
+const buildApiUrl = (base: string, path: string) => {
+  const cleanedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+  const cleanedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${cleanedBase}${cleanedPath}`;
 };
-
-const websiteAnalysisStages = [
-  "Checking website accessibility and structure...",
-  "Collecting interaction and engagement signals...",
-  "Scoring conversion readiness and trust signals...",
-  "Preparing your professional summary report...",
-];
-
-const noWebsiteStages = [
-  "Evaluating digital readiness for your business...",
-  "Mapping customer trust and discovery gaps...",
-  "Building a high-impact website launch priority list...",
-  "Preparing your recommended setup plan...",
-];
-
-const socialAnalysisStages = [
-  "Scanning social profile activity patterns...",
-  "Measuring engagement and consistency signals...",
-  "Evaluating content-to-conversion pathway...",
-  "Preparing your platform-specific action report...",
-];
-
-const noSocialStages = [
-  "Evaluating audience visibility opportunity...",
-  "Assessing trust-building channel gaps...",
-  "Creating foundational social setup priorities...",
-  "Preparing your social launch plan...",
-];
 
 const BusinessAnalyzerPage: React.FC = () => {
-  const [mode, setMode] = useState<AnalyzerMode>("website");
+  const apiBaseUrl = useMemo(() => {
+    const configured = (import.meta.env.VITE_API_BASE_URL ?? "").trim();
+    if (!configured) {
+      return "/api";
+    }
 
-  const [hasWebsite, setHasWebsite] = useState(true);
-  const [websiteUrl, setWebsiteUrl] = useState("");
-  const [websiteSubmitted, setWebsiteSubmitted] = useState(false);
-  const [websiteAnalyzing, setWebsiteAnalyzing] = useState(false);
-  const [websiteStage, setWebsiteStage] = useState(0);
+    const browserHost = window.location.hostname;
+    const isLocalBrowserHost = browserHost === "localhost" || browserHost === "127.0.0.1";
+    const pointsToLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(configured);
 
-  const [hasSocial, setHasSocial] = useState(true);
-  const [socialPlatform, setSocialPlatform] = useState<SocialPlatform>("Instagram");
-  const [socialHandle, setSocialHandle] = useState("");
-  const [socialSubmitted, setSocialSubmitted] = useState(false);
-  const [socialAnalyzing, setSocialAnalyzing] = useState(false);
-  const [socialStage, setSocialStage] = useState(0);
+    if (pointsToLocalhost && !isLocalBrowserHost) {
+      return "/api";
+    }
 
-  const timerIdsRef = useRef<number[]>([]);
+    return configured;
+  }, []);
 
-  const websiteReport = useMemo(() => {
-    const normalized = normalizeUrl(websiteUrl);
-    if (!normalized) return null;
+  const [form, setForm] = useState<AnalyzeRequest>(initialForm);
+  const [submitting, setSubmitting] = useState(false);
+  const [stageIndex, setStageIndex] = useState(0);
+  const [result, setResult] = useState<AnalysisResponse | null>(null);
+  const [error, setError] = useState("");
+  const [animatedScore, setAnimatedScore] = useState(0);
+  const [animatedMetrics, setAnimatedMetrics] = useState<number[]>([]);
 
-    const visibility = hashScore(`${normalized}-visibility`, 52, 89);
-    const engagement = hashScore(`${normalized}-engagement`, 48, 86);
-    const conversion = hashScore(`${normalized}-conversion`, 45, 84);
-
-    const strengths = [
-      "Business is discoverable and has a trackable digital footprint.",
-      "There is enough baseline activity to improve lead quality quickly.",
-    ];
-
-    const priorities = [
-      "Clarify the main value proposition above the fold to reduce bounce.",
-      "Strengthen trust signals (proof, testimonials, or case outcomes).",
-      "Improve lead capture with one clear call-to-action path.",
-    ];
-
-    return {
-      normalized,
-      visibility,
-      engagement,
-      conversion,
-      strengths,
-      priorities,
-    };
-  }, [websiteUrl]);
-
-  const socialReport = useMemo(() => {
-    const cleanHandle = socialHandle.trim().replace(/^@/, "");
-    if (!cleanHandle) return null;
-
-    const engagement = hashScore(`${socialPlatform}-${cleanHandle}-engagement`, 46, 88);
-    const consistency = hashScore(`${socialPlatform}-${cleanHandle}-consistency`, 42, 86);
-    const conversion = hashScore(`${socialPlatform}-${cleanHandle}-conversion`, 40, 82);
-
-    return {
-      cleanHandle,
-      engagement,
-      consistency,
-      conversion,
-      recommendations: socialTips[socialPlatform],
-    };
-  }, [socialPlatform, socialHandle]);
+  const stageIntervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
-      timerIdsRef.current.forEach((timerId) => window.clearTimeout(timerId));
+      if (stageIntervalRef.current) window.clearInterval(stageIntervalRef.current);
     };
   }, []);
 
-  const trackTimeout = (callback: () => void, delay: number) => {
-    const timerId = window.setTimeout(callback, delay);
-    timerIdsRef.current.push(timerId);
+  const handleFieldChange = (field: keyof AnalyzeRequest, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const runWebsiteAnalysis = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (hasWebsite && !normalizeUrl(websiteUrl)) {
-      setWebsiteSubmitted(true);
-      setWebsiteAnalyzing(false);
+  const resetTimers = () => {
+    if (stageIntervalRef.current) {
+      window.clearInterval(stageIntervalRef.current);
+      stageIntervalRef.current = null;
+    }
+  };
+
+  const startProgressAnimation = () => {
+    setStageIndex(0);
+    stageIntervalRef.current = window.setInterval(() => {
+      setStageIndex((prev) => (prev + 1 < progressStages.length ? prev + 1 : prev));
+    }, 900);
+  };
+
+  const validateForm = () => {
+    if (!form.name.trim() || !form.phone.trim() || !form.business_name.trim() || !form.input_value.trim()) {
+      setError("Please fill in all fields before submitting your analysis request.");
+      return false;
+    }
+
+    if (form.input_type === "website") {
+      const validWebsite = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/i.test(form.input_value.trim());
+      if (!validWebsite) {
+        setError("Please enter a valid website URL (example: yourbusiness.com).");
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    resetTimers();
+    setError("");
+    setResult(null);
+
+    if (!validateForm()) {
       return;
     }
 
-    setWebsiteSubmitted(false);
-    setWebsiteAnalyzing(true);
-    setWebsiteStage(0);
+    setSubmitting(true);
+    startProgressAnimation();
 
-    trackTimeout(() => setWebsiteStage(1), 700);
-    trackTimeout(() => setWebsiteStage(2), 1400);
-    trackTimeout(() => setWebsiteStage(3), 2100);
-    trackTimeout(() => {
-      setWebsiteAnalyzing(false);
-      setWebsiteSubmitted(true);
-    }, 2800);
+    try {
+      const response = await fetch(buildApiUrl(apiBaseUrl, "/analyze"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          business_name: form.business_name.trim(),
+          input_value: form.input_value.trim(),
+        }),
+      });
+
+      const contentType = response.headers.get("content-type") || "";
+      const payload = contentType.includes("application/json") ? await response.json() : null;
+
+      if (!response.ok) {
+        const message = typeof payload?.detail === "string" ? payload.detail : "Analysis request failed. Please try again.";
+        throw new Error(message);
+      }
+
+      setResult(payload as AnalysisResponse);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Unexpected error while analyzing your business.");
+    } finally {
+      setSubmitting(false);
+      if (stageIntervalRef.current) {
+        window.clearInterval(stageIntervalRef.current);
+        stageIntervalRef.current = null;
+      }
+    }
   };
 
-  const runSocialAnalysis = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (hasSocial && !socialHandle.trim().replace(/^@/, "")) {
-      setSocialSubmitted(true);
-      setSocialAnalyzing(false);
+  const progress = Math.round(((stageIndex + 1) / progressStages.length) * 100);
+
+  const scoreBand = useMemo(() => {
+    if (!result) return null;
+    return scoreBandMeta(result.analysis.score);
+  }, [result]);
+
+  const impactMetrics = useMemo(() => {
+    if (!result) return [] as Array<{ label: string; value: number; tone: string }>;
+
+    const score = result.analysis.score;
+    const conversionReadiness = Math.min(100, Math.round(score * 10 + 12));
+    const trustClarity = Math.min(100, Math.round(score * 9 + 16));
+    const urgencyGap = Math.max(8, 100 - Math.round(score * 9));
+
+    return [
+      {
+        label: "Conversion readiness",
+          value: conversionReadiness,
+        tone: "text-emerald-700 dark:text-emerald-300",
+      },
+      {
+        label: "Trust clarity",
+          value: trustClarity,
+        tone: "text-blue-700 dark:text-blue-300",
+      },
+      {
+        label: "Lost-opportunity pressure",
+          value: urgencyGap,
+        tone: "text-rose-700 dark:text-rose-300",
+      },
+    ];
+  }, [result]);
+
+  useEffect(() => {
+    if (!result || impactMetrics.length === 0) {
+      setAnimatedScore(0);
+      setAnimatedMetrics([]);
       return;
     }
 
-    setSocialSubmitted(false);
-    setSocialAnalyzing(true);
-    setSocialStage(0);
+    const targetScore = result.analysis.score;
+    const targetMetrics = impactMetrics.map((item) => item.value);
+    const durationMs = 750;
+    const start = performance.now();
+    let frameId = 0;
 
-    trackTimeout(() => setSocialStage(1), 700);
-    trackTimeout(() => setSocialStage(2), 1400);
-    trackTimeout(() => setSocialStage(3), 2100);
-    trackTimeout(() => {
-      setSocialAnalyzing(false);
-      setSocialSubmitted(true);
-    }, 2800);
+    const animate = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(1, elapsed / durationMs);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      setAnimatedScore(targetScore * eased);
+      setAnimatedMetrics(targetMetrics.map((value) => value * eased));
+
+      if (progress < 1) {
+        frameId = window.requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(animate);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [result, impactMetrics]);
+
+  const standardAuditWhatsappUrl = useMemo(() => {
+    if (!result) return "";
+    const auditMessage = [
+      "Hello, I completed my business audit and would like your help improving my business.",
+      `Name: ${result.lead.name}`,
+      `Business: ${result.lead.business_name}`,
+      `Input Type: ${result.analysis.input_type}`,
+      `Input Value: ${result.analysis.input_value}`,
+      `Audit Score: ${result.analysis.score}/10`,
+    ].join("\n");
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(auditMessage)}`;
+  }, [result]);
+
+  const advancedAuditWhatsappUrl = useMemo(() => {
+    if (!result) return "";
+    const advancedMessage = [
+      "Hello, I want the advanced paid business analysis package.",
+      `Name: ${result.lead.name}`,
+      `Business: ${result.lead.business_name}`,
+      `Current Audit Score: ${result.analysis.score}/10`,
+      "Please share pricing and next steps.",
+    ].join("\n");
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(advancedMessage)}`;
+  }, [result]);
+
+  const openWhatsappWithTracking = (actionType: ActionType, whatsappUrl: string) => async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (!result) {
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    const trackingPayload = {
+      lead_id: result.lead.id,
+      action_type: actionType,
+      business_name: result.lead.business_name,
+      score: result.analysis.score,
+    };
+
+    try {
+      await Promise.race([
+        fetch(buildApiUrl(apiBaseUrl, "/lead-action"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(trackingPayload),
+          keepalive: true,
+        }),
+        new Promise((resolve) => window.setTimeout(resolve, 700)),
+      ]);
+    } catch {
+      // WhatsApp follow-up should continue even if tracking fails.
+    }
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
-
-  const activeWebsiteStages = hasWebsite ? websiteAnalysisStages : noWebsiteStages;
-  const activeSocialStages = hasSocial ? socialAnalysisStages : noSocialStages;
-  const isAnyAnalysisRunning = websiteAnalyzing || socialAnalyzing;
-  const websiteProgress = Math.round(((websiteStage + 1) / activeWebsiteStages.length) * 100);
-  const socialProgress = Math.round(((socialStage + 1) / activeSocialStages.length) * 100);
 
   return (
-    <div className="min-h-screen">
-      <section className="relative overflow-hidden border-b border-slate-200/60 dark:border-white/5 bg-gradient-to-br from-primary-950 via-primary-900 to-slate-950 py-20 md:py-28">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:44px_44px] opacity-35" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.14),transparent_25%)]" />
+    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-white to-slate-100 py-14 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+      <div className="container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="mx-auto max-w-5xl"
+        >
+          <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/70 md:p-9">
+            <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-secondary-600 dark:text-secondary-400">
+                  AI Business Analyzer
+                </p>
+                <h1 className="mt-4 text-3xl font-black text-slate-900 dark:text-white md:text-4xl">
+                  See Your Growth Story Before Your Competitors Do
+                </h1>
+                <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+                  This audit turns your digital presence into a simple visual story: where you are losing trust now, where you can win faster,
+                  and what to fix first for better enquiries.
+                </p>
 
-        <div className="relative container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="max-w-4xl"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-secondary-300">
-              Free Business Analyzer
-            </span>
-            <h1 className="mt-6 text-4xl font-black leading-tight text-white md:text-5xl lg:text-6xl">
-              Analyze Your Online Performance in Minutes
-            </h1>
-            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-200/85 md:text-lg">
-              Get a professional, brief performance snapshot for your website or social media presence, plus clear next steps to improve customer engagement and revenue potential.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-20 bg-white/80 dark:bg-slate-950/35">
-        <div className="container mx-auto px-6">
-          <div className="mx-auto mb-8 grid max-w-2xl grid-cols-2 gap-3 rounded-2xl bg-slate-100 p-2 dark:bg-slate-900/60">
-            <button
-              type="button"
-              onClick={() => setMode("website")}
-              disabled={isAnyAnalysisRunning}
-              className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
-                mode === "website"
-                  ? "bg-primary-900 text-white dark:bg-secondary-500 dark:text-primary-950"
-                  : "text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-800"
-              } ${isAnyAnalysisRunning ? "cursor-not-allowed opacity-70" : ""}`}
-            >
-              Website Analysis
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("social")}
-              disabled={isAnyAnalysisRunning}
-              className={`rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
-                mode === "social"
-                  ? "bg-primary-900 text-white dark:bg-secondary-500 dark:text-primary-950"
-                  : "text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-800"
-              } ${isAnyAnalysisRunning ? "cursor-not-allowed opacity-70" : ""}`}
-            >
-              Social Media Analysis
-            </button>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {mode === "website" ? (
-              <motion.div
-                key="website-mode"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.3 }}
-                className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr]"
-              >
-                <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/50">
-                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">Website Analyzer</h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                    Enter your website URL to get a quick performance overview. No website yet? Tell us and we will show you the highest-impact starting plan.
-                  </p>
-
-                  <form onSubmit={runWebsiteAnalysis} className="mt-6 space-y-4">
-                    <label className="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-sm dark:border-slate-700">
-                      <input
-                        type="checkbox"
-                        checked={!hasWebsite}
-                        onChange={(e) => {
-                          setHasWebsite(!e.target.checked);
-                          if (e.target.checked) setWebsiteUrl("");
-                        }}
-                        disabled={websiteAnalyzing}
-                        className="h-4 w-4"
-                      />
-                      <span className="text-slate-700 dark:text-slate-200">I do not have a website yet</span>
+                <form onSubmit={handleSubmit} className="mt-8 grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      Full Name
                     </label>
+                    <input
+                      id="name"
+                      value={form.name}
+                      onChange={(e) => handleFieldChange("name", e.target.value)}
+                      disabled={submitting}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+                      placeholder="John Doe"
+                    />
+                  </div>
 
-                    <div>
-                      <label htmlFor="website-url" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                        Website link
-                      </label>
-                      <input
-                        id="website-url"
-                        type="text"
-                        placeholder="example.com"
-                        value={websiteUrl}
-                        onChange={(e) => setWebsiteUrl(e.target.value)}
-                        disabled={!hasWebsite || websiteAnalyzing}
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                      />
-                    </div>
+                  <div>
+                    <label htmlFor="phone" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      Phone Number
+                    </label>
+                    <input
+                      id="phone"
+                      value={form.phone}
+                      onChange={(e) => handleFieldChange("phone", e.target.value)}
+                      disabled={submitting}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+                      placeholder="+254..."
+                    />
+                  </div>
 
+                  <div>
+                    <label htmlFor="business_name" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      Business Name
+                    </label>
+                    <input
+                      id="business_name"
+                      value={form.business_name}
+                      onChange={(e) => handleFieldChange("business_name", e.target.value)}
+                      disabled={submitting}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+                      placeholder="Acme Traders"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="input_type" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      Analyze Using
+                    </label>
+                    <select
+                      id="input_type"
+                      value={form.input_type}
+                      onChange={(e) => handleFieldChange("input_type", e.target.value as InputType)}
+                      disabled={submitting}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+                    >
+                      <option value="website">Website</option>
+                      <option value="instagram">Instagram</option>
+                    </select>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label htmlFor="input_value" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                      {form.input_type === "website" ? "Website URL" : "Instagram Handle"}
+                    </label>
+                    <input
+                      id="input_value"
+                      value={form.input_value}
+                      onChange={(e) => handleFieldChange("input_value", e.target.value)}
+                      disabled={submitting}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+                      placeholder={form.input_type === "website" ? "example.com" : "@yourbusiness"}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
                     <button
                       type="submit"
-                      disabled={websiteAnalyzing}
-                      className="inline-flex w-full items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
+                      disabled={submitting}
+                      className="inline-flex w-full items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary-800 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
                     >
-                      {websiteAnalyzing ? "Analyzing..." : "Analyze Website"}
+                      {submitting ? "Analyzing Your Business..." : "Run AI Analysis"}
                     </button>
-                  </form>
-                </article>
+                  </div>
+                </form>
 
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/40">
-                  {websiteAnalyzing ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex h-full flex-col justify-center">
-                      <div className="mb-5 flex items-center gap-3">
-                        <span className="inline-flex h-8 w-8 animate-spin rounded-full border-2 border-secondary-500 border-t-transparent" aria-hidden="true" />
-                        <p className="flex-1 text-sm font-semibold text-slate-700 dark:text-slate-200">
-                          {activeWebsiteStages[websiteStage]}
-                        </p>
-                        <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                          {websiteProgress}%
-                        </span>
+                {error && (
+                  <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-700/60 dark:bg-red-950/30 dark:text-red-300">
+                    {error}
+                  </div>
+                )}
+              </div>
+
+              <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-950/40">
+                <div className="text-xs font-black uppercase tracking-[0.24em] text-secondary-700 dark:text-secondary-300">
+                  What Happens Next
+                </div>
+                <div className="mt-4 space-y-3">
+                  {analyzerStory.map((item) => (
+                    <div key={item.title} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/70">
+                      <div className="inline-flex rounded-full bg-secondary-100 px-2.5 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-secondary-700 dark:bg-secondary-500/20 dark:text-secondary-300">
+                        {item.chip}
                       </div>
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-                        <div
-                          className="h-full rounded-full bg-secondary-500 transition-all duration-500"
-                          style={{ width: `${websiteProgress}%` }}
-                        />
-                      </div>
-                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                        Building your professional report...
-                      </p>
-                    </motion.div>
-                  ) : !websiteSubmitted ? (
-                    <div className="flex h-full items-center justify-center text-center">
-                      <p className="max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        Your report will appear here with a visibility snapshot, engagement signals, and priority actions to improve conversions.
-                      </p>
+                      <h3 className="mt-2 text-base font-black text-slate-900 dark:text-white">{item.title}</h3>
+                      <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.description}</p>
                     </div>
-                  ) : !hasWebsite ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible">
-                      <h3 className="text-xl font-black text-slate-900 dark:text-white">No Website Yet: Biggest Opportunity Identified</h3>
-                      <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        Your business is likely losing qualified prospects who want to verify credibility before calling or walking in.
-                      </p>
-                      <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-200">
-                        <li>1. Build a conversion-focused website with clear offer + CTA.</li>
-                        <li>2. Add trust signals (proof, results, testimonials, location details).</li>
-                        <li>3. Connect WhatsApp and lead forms for faster follow-up.</li>
-                      </ul>
-                      <Link
-                        to="/contact"
-                        className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-                      >
-                        Get a Website Growth Plan
-                      </Link>
-                    </motion.div>
-                  ) : websiteReport ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <h3 className="text-xl font-black text-slate-900 dark:text-white">Website Performance Snapshot</h3>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                          Signal-based estimate
-                        </span>
-                      </div>
-                      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Analyzed: {websiteReport.normalized}</p>
+                  ))}
+                </div>
 
-                      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Visibility</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{websiteReport.visibility}/100</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Engagement</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{websiteReport.engagement}/100</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Conversion Readiness</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{websiteReport.conversion}/100</div>
-                        </div>
-                      </div>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                  {proofSignals.map((signal) => (
+                    <div key={signal.label} className="rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
+                      <div className="text-lg font-black text-primary-900 dark:text-secondary-300">{signal.value}</div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">{signal.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+            </div>
+          </div>
 
-                      <div className="mt-6 grid gap-5 md:grid-cols-2">
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">What is working</h4>
-                          <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                            {websiteReport.strengths.map((item) => (
-                              <li key={item}>- {item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">Highest priority fixes</h4>
-                          <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                            {websiteReport.priorities.map((item) => (
-                              <li key={item}>- {item}</li>
-                            ))}
-                          </ul>
-                        </div>
+          <div className="mt-7 rounded-3xl border border-slate-200 bg-white p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/70 md:p-9">
+            {submitting ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-7 w-7 animate-spin rounded-full border-2 border-secondary-500 border-t-transparent" aria-hidden="true" />
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{progressStages[stageIndex]}</p>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                    {progress}%
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                  <div className="h-full rounded-full bg-secondary-500 transition-all duration-500" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            ) : result ? (
+              <div>
+                <div className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900/50 md:grid-cols-[auto_1fr]">
+                  <div
+                    className="relative h-24 w-24 rounded-full"
+                    style={{
+                        background: `conic-gradient(${scoreBand?.ring ?? "rgb(14 116 144)"} 0% ${Math.min(100, Math.round(animatedScore * 10))}%, rgb(226 232 240) ${Math.min(100, Math.round(animatedScore * 10))}% 100%)`,
+                    }}
+                  >
+                    <div className="absolute inset-2 flex items-center justify-center rounded-full bg-white text-center dark:bg-slate-900">
+                      <div>
+                          <div className="text-2xl font-black text-slate-900 dark:text-white">{animatedScore.toFixed(1)}</div>
+                        <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">Score / 10</div>
                       </div>
+                    </div>
+                  </div>
 
-                      <Link
-                        to="/contact"
-                        className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-                      >
-                        Get a Full Website Growth Strategy
-                      </Link>
-                    </motion.div>
-                  ) : (
-                    <div className="text-sm text-red-600">Please provide a valid website link.</div>
-                  )}
-                </article>
-              </motion.div>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h2 className="text-2xl font-black text-slate-900 dark:text-white">Audit Summary</h2>
+                      <span className={`rounded-full px-3 py-1 text-xs font-black uppercase tracking-[0.14em] ${scoreBand?.badge ?? "bg-secondary-100 text-secondary-800"}`}>
+                        {scoreBand?.label}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                      {scoreBand?.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                    {impactMetrics.map((item, index) => (
+                    <div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/50">
+                      <div className="text-xs font-bold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">{item.label}</div>
+                        <div className={`mt-2 text-2xl font-black ${item.tone}`}>{`${Math.round(animatedMetrics[index] ?? 0)}%`}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-4 whitespace-pre-line text-sm leading-7 text-slate-700 dark:text-slate-200">{result.report_text}</p>
+
+                <motion.div
+                  className="mt-6 grid gap-5 md:grid-cols-3"
+                  variants={resultCardsContainer}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <motion.div variants={resultCardItem} className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-rose-700 dark:text-rose-300">Key Problems</h3>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      {result.analysis.problems.map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.div variants={resultCardItem} className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-blue-700 dark:text-blue-300">Opportunities</h3>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      {result.analysis.opportunities.map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.div variants={resultCardItem} className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">Recommendations</h3>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      {result.analysis.recommendations.map((item) => (
+                        <li key={item}>- {item}</li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </motion.div>
+
+                <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 dark:border-amber-600/40 dark:bg-amber-900/20 dark:text-amber-200">
+                  {result.urgency_message}
+                </div>
+
+                <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-900 dark:border-emerald-700/50 dark:bg-emerald-900/20 dark:text-emerald-200">
+                  {result.cta_message}
+                </div>
+
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <a
+                    href={standardAuditWhatsappUrl}
+                    onClick={openWhatsappWithTracking("standard", standardAuditWhatsappUrl)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
+                  >
+                    Discuss This Audit on WhatsApp
+                  </a>
+                </div>
+
+                <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900/50">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">Need a Deeper Search Analysis?</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    We also offer an advanced paid analysis with deeper competitor search review, audience insights, and a more detailed growth roadmap tailored to your business.
+                  </p>
+                  <a
+                    href={advancedAuditWhatsappUrl}
+                    onClick={openWhatsappWithTracking("advanced", advancedAuditWhatsappUrl)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center justify-center rounded-xl border border-primary-900 px-5 py-3 text-sm font-bold text-primary-900 transition-colors hover:bg-primary-50 dark:border-secondary-500 dark:text-secondary-300 dark:hover:bg-slate-800"
+                  >
+                    Request Advanced Paid Analysis
+                  </a>
+                </div>
+              </div>
             ) : (
-              <motion.div
-                key="social-mode"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.3 }}
-                className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.95fr_1.05fr]"
-              >
-                <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/50">
-                  <h2 className="text-2xl font-black text-slate-900 dark:text-white">Social Media Analyzer</h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                    Enter your platform and business handle to get a quick engagement and conversion-readiness report.
+              <div>
+                <div className="text-center">
+                  <h2 className="text-xl font-black text-slate-900 dark:text-white">Your AI audit will appear here</h2>
+                  <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    Complete the form above to get a concise, professional analysis with clear next actions for growth.
                   </p>
+                </div>
 
-                  <form onSubmit={runSocialAnalysis} className="mt-6 space-y-4">
-                    <label className="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-sm dark:border-slate-700">
-                      <input
-                        type="checkbox"
-                        checked={!hasSocial}
-                        onChange={(e) => {
-                          setHasSocial(!e.target.checked);
-                          if (e.target.checked) setSocialHandle("");
+                <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-secondary-700 dark:text-secondary-300">Preview Score Snapshot</div>
+                    <div className="mt-5 flex items-center gap-5">
+                      <div
+                        className="relative h-28 w-28 rounded-full"
+                        style={{
+                          background: "conic-gradient(rgb(14 116 144) 0% 66%, rgb(226 232 240) 66% 100%)",
                         }}
-                        disabled={socialAnalyzing}
-                        className="h-4 w-4"
-                      />
-                      <span className="text-slate-700 dark:text-slate-200">I do not have active business social media accounts</span>
-                    </label>
-
-                    <div>
-                      <label htmlFor="platform" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                        Platform
-                      </label>
-                      <select
-                        id="platform"
-                        value={socialPlatform}
-                        onChange={(e) => setSocialPlatform(e.target.value as SocialPlatform)}
-                        disabled={!hasSocial || socialAnalyzing}
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
                       >
-                        <option>Instagram</option>
-                        <option>Facebook</option>
-                        <option>TikTok</option>
-                        <option>LinkedIn</option>
-                        <option>X</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="handle" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                        Business handle
-                      </label>
-                      <input
-                        id="handle"
-                        type="text"
-                        placeholder="@yourbusiness"
-                        value={socialHandle}
-                        onChange={(e) => setSocialHandle(e.target.value)}
-                        disabled={!hasSocial || socialAnalyzing}
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-secondary-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={socialAnalyzing}
-                      className="inline-flex w-full items-center justify-center rounded-xl bg-primary-900 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-                    >
-                      {socialAnalyzing ? "Analyzing..." : "Analyze Social Performance"}
-                    </button>
-                  </form>
-                </article>
-
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-7 shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/40">
-                  {socialAnalyzing ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible" className="flex h-full flex-col justify-center">
-                      <div className="mb-5 flex items-center gap-3">
-                        <span className="inline-flex h-8 w-8 animate-spin rounded-full border-2 border-secondary-500 border-t-transparent" aria-hidden="true" />
-                        <p className="flex-1 text-sm font-semibold text-slate-700 dark:text-slate-200">
-                          {activeSocialStages[socialStage]}
-                        </p>
-                        <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                          {socialProgress}%
-                        </span>
-                      </div>
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-                        <div
-                          className="h-full rounded-full bg-secondary-500 transition-all duration-500"
-                          style={{ width: `${socialProgress}%` }}
-                        />
-                      </div>
-                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                        Building your professional report...
-                      </p>
-                    </motion.div>
-                  ) : !socialSubmitted ? (
-                    <div className="flex h-full items-center justify-center text-center">
-                      <p className="max-w-md text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        Your social report will appear here with engagement signal scores and conversion-focused platform recommendations.
-                      </p>
-                    </div>
-                  ) : !hasSocial ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible">
-                      <h3 className="text-xl font-black text-slate-900 dark:text-white">No Social Presence Yet: High Growth Opportunity</h3>
-                      <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                        Without active social channels, your business misses repeated exposure and trust-building opportunities with potential customers.
-                      </p>
-                      <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-200">
-                        <li>1. Launch platform-specific profiles with professional branding.</li>
-                        <li>2. Build a simple weekly content system for consistency.</li>
-                        <li>3. Connect social content to WhatsApp and enquiry conversion paths.</li>
-                      </ul>
-                      <Link
-                        to="/contact"
-                        className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-                      >
-                        Get a Social Growth Setup Plan
-                      </Link>
-                    </motion.div>
-                  ) : socialReport ? (
-                    <motion.div variants={fadeUp} initial="hidden" animate="visible">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <h3 className="text-xl font-black text-slate-900 dark:text-white">Social Performance Snapshot</h3>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                          Signal-based estimate
-                        </span>
-                      </div>
-                      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                        Analyzed: {socialPlatform} / @{socialReport.cleanHandle}
-                      </p>
-
-                      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Engagement</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{socialReport.engagement}/100</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Consistency</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{socialReport.consistency}/100</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/60">
-                          <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Conversion Readiness</div>
-                          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{socialReport.conversion}/100</div>
+                        <div className="absolute inset-2 flex items-center justify-center rounded-full bg-white text-center dark:bg-slate-900">
+                          <div>
+                            <div className="text-2xl font-black text-slate-900 dark:text-white">6.6</div>
+                            <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Sample score</div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="mt-6">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                          Recommended {socialPlatform} improvements
-                        </h4>
-                        <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                          {socialReport.recommendations.map((item) => (
-                            <li key={item}>- {item}</li>
-                          ))}
-                        </ul>
+                      <div className="space-y-2 text-sm">
+                        <div className="font-semibold text-slate-800 dark:text-slate-200">Live-style outcome preview</div>
+                        <div className="text-slate-600 dark:text-slate-300">You will get visual diagnosis + practical action priorities.</div>
+                        <div className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                          No guesswork
+                        </div>
                       </div>
+                    </div>
 
-                      <Link
-                        to="/contact"
-                        className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-900 px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-                      >
-                        Get a Full Social Growth Strategy
-                      </Link>
-                    </motion.div>
-                  ) : (
-                    <div className="text-sm text-red-600">Please provide a valid handle.</div>
-                  )}
-                </article>
-              </motion.div>
+                    <div className="mt-6 space-y-3">
+                      {mockInsights.map((item) => (
+                        <div key={item.label}>
+                          <div className="mb-1 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                            <span>{item.label}</span>
+                            <span>{item.value}%</span>
+                          </div>
+                          <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                            <div className={`h-full rounded-full ${item.tone}`} style={{ width: `${item.value}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900/60">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-secondary-700 dark:text-secondary-300">Example Growth Recommendations</div>
+                    <div className="mt-4 space-y-3">
+                      {mockFixes.map((item, index) => (
+                        <div key={item.title} className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary-900 text-xs font-black text-white dark:bg-secondary-500 dark:text-primary-950">
+                              {index + 1}
+                            </div>
+                            <div>
+                              <h3 className="text-sm font-black text-slate-900 dark:text-white">{item.title}</h3>
+                              <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.detail}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
-          </AnimatePresence>
-        </div>
-      </section>
-
-      <section className="py-16 bg-slate-50 dark:bg-slate-900/70">
-        <div className="container mx-auto px-6">
-          <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg shadow-slate-950/5 dark:border-slate-700 dark:bg-slate-900/50">
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">Want the full growth roadmap?</h3>
-            <p className="mt-3 text-sm md:text-base leading-7 text-slate-600 dark:text-slate-300">
-              This analyzer gives you a professional snapshot. We can go deeper with a full audit, implementation plan, and 30-day execution strategy tailored to your business.
-            </p>
-            <Link
-              to="/contact"
-              className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-900 px-7 py-3.5 font-bold text-white transition-colors hover:bg-primary-800 dark:bg-secondary-500 dark:text-primary-950 dark:hover:bg-secondary-400"
-            >
-              Book a Growth Consultation
-            </Link>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -89,6 +89,30 @@ const stats = [
   { value: "5+", label: "Years of Experience" },
 ];
 
+const journeyScenes = [
+  {
+    stage: "Before",
+    title: "Scattered first impression",
+    detail: "Businesses often have traffic, but weak messaging and unclear structure make prospects hesitate.",
+    color: "from-rose-500/20 to-rose-400/5",
+    icon: "🧩",
+  },
+  {
+    stage: "During",
+    title: "Focused digital rebuild",
+    detail: "We align visuals, content, and customer flow so people quickly understand what you do and why it matters.",
+    color: "from-amber-400/20 to-amber-300/5",
+    icon: "⚙️",
+  },
+  {
+    stage: "After",
+    title: "Confidence and conversion",
+    detail: "You gain a stronger online presence that turns more attention into enquiries, calls, and consistent growth.",
+    color: "from-emerald-500/20 to-emerald-300/5",
+    icon: "🚀",
+  },
+];
+
 const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen">
@@ -138,6 +162,46 @@ const AboutPage: React.FC = () => {
       </section>
 
       {/* Who We Are */}
+      <section className="py-16 md:py-20 bg-slate-100 dark:bg-slate-900">
+        <div className="container mx-auto px-6">
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
+              Visual Story
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
+              How clients experience transformation
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {journeyScenes.map((scene, i) => (
+              <motion.div
+                key={scene.title}
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                className={`rounded-2xl border border-slate-200/70 bg-gradient-to-br ${scene.color} p-6 dark:border-slate-700`}
+              >
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-secondary-700 dark:text-secondary-300">{scene.stage}</div>
+                    <div className="text-lg" aria-hidden="true">{scene.icon}</div>
+                  </div>
+                <h3 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">{scene.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300">{scene.detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 md:py-28 bg-white dark:bg-slate-800/30">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">

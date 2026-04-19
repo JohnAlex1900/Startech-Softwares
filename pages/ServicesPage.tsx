@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { SERVICES } from "../constants";
-import PricingTiers from "../components/PricingTiers";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -13,36 +12,52 @@ const fadeUp = {
   }),
 };
 
+const storyFrames = [
+  {
+    title: "Before",
+    subtitle: "Visibility without conversion",
+    desc: "You may be getting traffic, but unclear messaging and weak response paths cause prospects to leave without taking action.",
+    tone: "from-rose-500/20 to-rose-100/5",
+  },
+  {
+    title: "During",
+    subtitle: "Structured digital rebuild",
+    desc: "We redesign your touchpoints so your offer is easier to understand, trust is stronger, and contact is frictionless.",
+    tone: "from-amber-500/20 to-amber-100/5",
+  },
+  {
+    title: "After",
+    subtitle: "Reliable growth engine",
+    desc: "You get a cleaner system that attracts better enquiries, responds faster, and supports long-term business growth.",
+    tone: "from-emerald-500/20 to-emerald-100/5",
+  },
+];
+
 const processSteps = [
   {
     number: "01",
-    title: "Discovery & Strategy",
-    desc: "We start by deeply understanding your business goals, target audience, and competitive landscape. This forms the blueprint for everything we build.",
+    title: "Business Discovery",
+    desc: "We uncover where prospects drop off, where trust is weak, and where growth opportunities are being missed.",
   },
   {
     number: "02",
-    title: "Planning & Design",
-    desc: "Our team creates detailed project plans, wireframes, and design concepts — ensuring alignment before a single line of code is written.",
+    title: "Strategy Blueprint",
+    desc: "We map a focused action plan that aligns with your goals, audience behavior, and delivery capacity.",
   },
   {
     number: "03",
-    title: "Development & Execution",
-    desc: "Expert developers and marketers bring your solution to life, using modern tools and best practices for performance and scalability.",
+    title: "Build & Deployment",
+    desc: "Design, development, and automation are implemented with clarity, performance, and maintainability in mind.",
   },
   {
     number: "04",
-    title: "Testing & Quality Assurance",
-    desc: "Rigorous testing across devices, browsers, and use cases ensures every solution works flawlessly from day one.",
+    title: "Optimization",
+    desc: "We refine weak points and improve user flow so the experience works better for both prospects and your team.",
   },
   {
     number: "05",
-    title: "Launch & Deployment",
-    desc: "We handle the full deployment process — from domain setup and hosting to go-live support — ensuring a smooth, seamless launch.",
-  },
-  {
-    number: "06",
-    title: "Ongoing Support & Growth",
-    desc: "Our partnership doesn't end at launch. We provide continuous monitoring, updates, and growth strategies to keep you ahead.",
+    title: "Scale Support",
+    desc: "After launch, we continue improving what matters most: visibility quality, conversion clarity, and response speed.",
   },
 ];
 
@@ -141,9 +156,9 @@ const ServicesPage: React.FC = () => {
   const [activeService, setActiveService] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Hero */}
-      <section className="relative py-28 md:py-36 bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 overflow-hidden">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-950 via-primary-900 to-slate-900 py-28 md:py-36">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_100%,rgba(6,182,212,0.15),transparent)]" />
         <div className="container mx-auto px-6 relative z-10 text-center">
@@ -152,17 +167,40 @@ const ServicesPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <span className="inline-block text-secondary-400 font-bold text-sm uppercase tracking-widest mb-4">
-              Pick your growth lever
+            <span className="inline-block mb-4 text-sm font-bold uppercase tracking-widest text-secondary-400">
+              Value-Focused Services
             </span>
             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Practical{" "}
-              <span className="text-secondary-300">Solutions</span>
+              We Build the Digital Systems
+              <span className="block text-secondary-300">That Turn Interest into Clients</span>
             </h1>
             <p className="text-lg md:text-xl text-primary-100/80 max-w-3xl mx-auto leading-relaxed">
-              From visibility to conversion, we build the systems that help your business look credible, stay responsive, and attract better enquiries.
+              Every service is designed to solve one core business challenge: low trust, weak visibility, slow response, or poor conversion flow.
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Story strip */}
+      <section className="bg-slate-100 py-14 dark:bg-slate-900">
+        <div className="container mx-auto px-6">
+          <div className="grid gap-4 md:grid-cols-3">
+            {storyFrames.map((frame, i) => (
+              <motion.div
+                key={frame.title}
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                className={`rounded-2xl border border-slate-200/80 bg-gradient-to-br ${frame.tone} p-6 dark:border-slate-700`}
+              >
+                <div className="text-xs font-black uppercase tracking-[0.2em] text-secondary-700 dark:text-secondary-300">{frame.title}</div>
+                <h3 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">{frame.subtitle}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-700 dark:text-slate-300">{frame.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -177,21 +215,21 @@ const ServicesPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-              What each service fixes
+              Service Architecture
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Services shaped around customer friction
+              What We Deliver for Your Business
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              Click on any service to see the business problem it solves and the kind of outcome you can expect.
+              Select any service to see the practical outcomes, capabilities, and strategic value it adds.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-10">
             {[
-              { title: 'Slow response', text: 'Automations that keep leads moving when your team is busy.' },
-              { title: 'Unclear offer', text: 'Messaging that makes your service easy to understand quickly.' },
-              { title: 'Weak visibility', text: 'SEO and content support that helps the right people find you.' },
+              { title: 'Better visibility', text: 'Get discovered by people already searching for your type of service.' },
+              { title: 'Higher trust', text: 'Communicate your value clearly so prospects feel confident contacting you.' },
+              { title: 'Faster response', text: 'Automate repetitive interactions and capture leads before they go cold.' },
             ].map((item) => (
               <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm dark:border-slate-700 dark:bg-slate-800/70">
                 <div className="text-sm font-bold uppercase tracking-[0.2em] text-secondary-600 dark:text-secondary-400">{item.title}</div>
@@ -293,19 +331,19 @@ const ServicesPage: React.FC = () => {
                     </div>
                     <div className="flex flex-col gap-4">
                       <div className="bg-primary-950 rounded-2xl p-6">
-                        <p className="text-secondary-400 font-bold text-sm uppercase tracking-widest mb-2">Ready to get started?</p>
-                        <p className="text-primary-200/80 text-sm mb-4">Get a personalized quote for your <span className="lowercase">{activeService}</span> project.</p>
+                        <p className="text-secondary-400 font-bold text-sm uppercase tracking-widest mb-2">Implementation path</p>
+                        <p className="text-primary-200/80 text-sm mb-4">Let us map how this service can be applied to your business goals and current growth stage.</p>
                         <Link
                           to="/contact"
                           className="inline-block bg-secondary-500 hover:bg-secondary-400 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition-colors"
                         >
-                          Request a Quote
+                          Book Strategy Call
                         </Link>
                       </div>
                       <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
                         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                          <span className="font-bold text-slate-900 dark:text-white">Not sure where to start?</span>{" "}
-                          We offer free consultations to help you identify the best digital strategy for your business goals.
+                          <span className="font-bold text-slate-900 dark:text-white">Outcome focus:</span>{" "}
+                          every recommendation is tied to clarity, trust, faster response, and better client conversion.
                         </p>
                       </div>
                     </div>
@@ -316,9 +354,6 @@ const ServicesPage: React.FC = () => {
           </AnimatePresence>
         </div>
       </section>
-
-      {/* Pricing Tiers */}
-      <PricingTiers />
 
       {/* Process */}
       <section className="py-20 md:py-28 bg-white dark:bg-slate-800/30">
@@ -331,17 +366,17 @@ const ServicesPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block text-secondary-600 dark:text-secondary-400 font-bold text-sm uppercase tracking-widest mb-3">
-              How We Work
+              Delivery Journey
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Our Proven Process
+              How We Turn Strategy into Results
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              A structured, transparent approach that delivers results — every time.
+              A focused process that keeps the work clear, accountable, and tied to business outcomes.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             {processSteps.map((step, i) => (
               <motion.div
                 key={step.number}
@@ -378,7 +413,7 @@ const ServicesPage: React.FC = () => {
                 Our Commitment
               </span>
               <h2 className="text-3xl md:text-4xl font-black text-white mb-6">
-                More Than a Service Provider — <span className="text-secondary-400">Your Digital Partner</span>
+                More Than Delivery — <span className="text-secondary-400">A Long-Term Growth Partner</span>
               </h2>
               <p className="text-primary-200/80 text-lg leading-relaxed mb-6">
                 We do not just execute tasks. We look at the stage where customers lose interest, then design the experience so more of them move forward.
@@ -387,7 +422,7 @@ const ServicesPage: React.FC = () => {
                 {[
                   { label: "Dedicated Project Manager", desc: "One point of contact for seamless communication" },
                   { label: "Real-time Progress Updates", desc: "Stay informed at every stage of your project" },
-                  { label: "Flexible Packages", desc: "Solutions scaled to your budget and business size" },
+                  { label: "Tailored Scope", desc: "Solutions aligned to your goals, delivery pace, and team capacity" },
                   { label: "Post-launch Support", desc: "We're here long after your project goes live" },
                 ].map((item, i) => (
                   <motion.div
@@ -422,13 +457,13 @@ const ServicesPage: React.FC = () => {
             >
               <h3 className="text-2xl font-black text-white mb-6">Get a Free Consultation</h3>
               <p className="text-primary-200/70 mb-6 text-sm leading-relaxed">
-                Not sure which services your business needs? Book a free 30-minute consultation with our team and we'll help you map out the perfect digital strategy.
+                Not sure which services fit your stage? Book a focused consultation and we will map your best next moves.
               </p>
               <div className="space-y-3 mb-6">
                 {[
                   "Identify the biggest opportunities for your business",
                   "Get expert recommendations tailored to your goals",
-                  "Receive a rough cost estimate for your project",
+                  "See a clear implementation sequence",
                   "Zero commitment required",
                 ].map((item, i) => (
                   <div key={i} className="flex gap-2 items-center">

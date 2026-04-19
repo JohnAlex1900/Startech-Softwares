@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom';
+import { onAuthStateChanged, type User } from 'firebase/auth';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -16,6 +17,11 @@ import PortfolioPage from './pages/PortfolioPage';
 import PricingPage from './pages/PricingPage';
 import BusinessAnalyzerPage from './pages/BusinessAnalyzerPage';
 import ContactPage from './pages/ContactPage';
+import AdminLeadsPage from './pages/AdminLeadsPage';
+import AdminAuthPage from './pages/AdminAuthPage';
+import AdminNotFoundPage from './pages/AdminNotFoundPage';
+import { isAllowedAdminUser } from './adminAccess';
+import { auth, isFirebaseAuthConfigured } from './firebaseClient';
 
 // Scroll to top on route change, respecting prefers-reduced-motion
 const ScrollToTop: React.FC = () => {
@@ -39,6 +45,35 @@ const HomePage: React.FC = () => (
   </main>
 );
 
+const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [checking, setChecking] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (!auth || !isFirebaseAuthConfigured) {
+      setChecking(false);
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setChecking(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  if (checking) {
+    return <main className="flex-grow px-6 py-12 text-sm text-slate-600 dark:text-slate-300">Checking admin session...</main>;
+  }
+
+  if (!auth || !isFirebaseAuthConfigured || !user || !isAllowedAdminUser(user)) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const AppContent: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> = ({
   isDarkMode,
   toggleDarkMode,
@@ -55,6 +90,16 @@ const AppContent: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> 
         <Route path="/portfolio" element={<main className="flex-grow"><PortfolioPage /></main>} />
         <Route path="/pricing" element={<main className="flex-grow"><PricingPage /></main>} />
         <Route path="/contact" element={<main className="flex-grow"><ContactPage /></main>} />
+        <Route path="/admin" element={<main className="flex-grow"><AdminAuthPage /></main>} />
+        <Route
+          path="/admin/leads"
+          element={(
+            <ProtectedAdminRoute>
+              <main className="flex-grow"><AdminLeadsPage /></main>
+            </ProtectedAdminRoute>
+          )}
+        />
+        <Route path="/admin/*" element={<main className="flex-grow"><AdminNotFoundPage /></main>} />
       </Routes>
       <Footer />
     </div>

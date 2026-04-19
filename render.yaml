@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: startech-backend
+    env: python
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    envVars:
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: ADMIN_REQUIRE_EMAIL_VERIFIED
+        value: "false"
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: ADMIN_AUTH_WINDOW_SECONDS
+        sync: false
+      - key: ADMIN_AUTH_MAX_FAILURES
+        sync: false
+      - key: ADMIN_AUTH_LOCK_SECONDS
+        sync: false
