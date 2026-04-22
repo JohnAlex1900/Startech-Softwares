@@ -14,7 +14,6 @@ import Footer from './components/Footer';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import PortfolioPage from './pages/PortfolioPage';
-import PricingPage from './pages/PricingPage';
 import BusinessAnalyzerPage from './pages/BusinessAnalyzerPage';
 import ContactPage from './pages/ContactPage';
 import AdminLeadsPage from './pages/AdminLeadsPage';
@@ -88,7 +87,6 @@ const AppContent: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> 
         <Route path="/services" element={<main className="flex-grow"><ServicesPage /></main>} />
         <Route path="/analyzer" element={<main className="flex-grow"><BusinessAnalyzerPage /></main>} />
         <Route path="/portfolio" element={<main className="flex-grow"><PortfolioPage /></main>} />
-        <Route path="/pricing" element={<main className="flex-grow"><PricingPage /></main>} />
         <Route path="/contact" element={<main className="flex-grow"><ContactPage /></main>} />
         <Route path="/admin" element={<main className="flex-grow"><AdminAuthPage /></main>} />
         <Route

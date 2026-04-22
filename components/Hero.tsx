@@ -221,8 +221,8 @@ const Hero: React.FC = () => {
                 <div className="mt-6 space-y-3">
                   {[
                     { text: 'A website that explains the offer in seconds', icon: '✓' },
-                    { text: 'Pricing and service details that reduce uncertainty', icon: '✓' },
-                    { text: 'A fast way to ask questions or request a quote', icon: '✓' },
+                    { text: 'Custom service plans tailored to your needs', icon: '✓' },
+                    { text: 'A fast way to ask questions or get personalized pricing', icon: '✓' },
                     { text: 'Social proof that builds confidence before the first call', icon: '✓' },
                   ].map((item, index) => (
                     <motion.div

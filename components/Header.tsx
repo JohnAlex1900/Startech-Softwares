@@ -55,7 +55,6 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
     { to: "/about", label: "About" },
     { to: "/services", label: "Services" },
     { to: "/analyzer", label: "Analyzer" },
-    { to: "/pricing", label: "Pricing" },
     { to: "/portfolio", label: "Portfolio" },
     { to: "/contact", label: "Contact" },
   ];

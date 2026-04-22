@@ -116,7 +116,7 @@ const Contact: React.FC = () => {
                 {[
                   'Quick discussion of your goals and current challenge',
                   'A short recommendation on the best starting point',
-                  'Clear next steps, pricing direction, and timeline expectations',
+                  'Clear next steps, personalized pricing consultation, and timeline expectations',
                 ].map((step) => (
                   <div key={step} className="flex gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
                     <div className="mt-1 h-2.5 w-2.5 rounded-full bg-secondary-400" />

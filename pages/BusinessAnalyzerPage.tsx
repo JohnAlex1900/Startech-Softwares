@@ -351,11 +351,11 @@ const BusinessAnalyzerPage: React.FC = () => {
   const advancedAuditWhatsappUrl = useMemo(() => {
     if (!result) return "";
     const advancedMessage = [
-      "Hello, I want the advanced paid business analysis package.",
+      "Hello, I want the advanced business analysis package.",
       `Name: ${result.lead.name}`,
       `Business: ${result.lead.business_name}`,
       `Current Audit Score: ${result.analysis.score}/10`,
-      "Please share pricing and next steps.",
+      "Let's discuss the implementation plan and next steps.",
     ].join("\n");
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(advancedMessage)}`;
